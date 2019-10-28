@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="google-site-verification" content="sZ8voqdjWBqUSDEf9n2FdpwgYVcgrLtgSF4eLlRSX0M" />
+    <meta name="author"  content="N.U.E Offshore Resources">
+    <meta name="description" content="N.U.E Offshore Resources Limited specializes in Marine Vessel Management Services, Logistics Services, Personal Protective Equipment (PPE), Drilling, Manning and Crewing">
+    <meta name="keyword" content="Careers, Job, Manning, Crewing, Vessel Management, Logistics Services, Personal Protective Equipment (PPE), workwear, offshore workwear, offshore pipe, octg pipe, offshore drilling, Lekki, Lagos, Nigeria">
+    <title>{% block title %}NUE Careers{% endblock %}</title>
+    <!--Bootstrap css-->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!--Fontawesome-->
+    <link rel="stylesheet" href="{% static 'fontawesome5.4.2/css/fontawesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome5.4.2/css/all.css' %}">
+    <!--Customized css-->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/job.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
+<body>
+
+
+{% block content %}
+{% endblock %}
+
+
+
+<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.4.1.min.js"></script>
+<!-- Font Awesome JS -->
+<script type="text/javascript" src="{% static 'fontawesome5.4.2/js/solid.js' %}"></script>
+<script type="text/javascript" src="{% static 'fontawesome5.4.2/js/fontawesome.js' %}"></script>
+<script type="text/javascript" src="{% static 'fontawesome5.4.2/js/all.js' %}"></script>
+<!--Custom JS-->
+<script type="text/javascript" src="{% static 'js/navbar.js' %}"></script>
+<script>
+/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+var dropdown = document.getElementsByClassName("dropdown-toggle");
+var i;
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+  this.classList.toggle("active");
+  var dropdownContent = this.nextElementSibling;
+  if (dropdownContent.style.display == "block") {
+  dropdownContent.style.display = "none";
+  } else {
+  dropdownContent.style.display = "block";
+  }
+  });
+}
+</script>
+</body>
+</html>

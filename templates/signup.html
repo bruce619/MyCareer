@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% include 'sidebar.html' %}
+            <center>
+                <div class="content-section col-md-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <legend class="border-bottom mb-4">Join Today</legend>
+                            {{ form|crispy }}
+                        </fieldset>
+                        <div class="form-group">
+                            <button class="btn btn-danger" type="submit">Sign Up</button>
+                        </div>
+                    </form>
+                    <div class="border-top pt-3">
+                        <small class="text-muted">
+                            <p class="message" style="text-align: center; color: #00ABF0;">Already Registered? <a href="{% url 'login' %}" style="color:#E61C29;">Login</a></p>
+                        </small>
+                    </div>
+                </div>
+            </center>
+    </div>
+</div>
+{% endblock content %}

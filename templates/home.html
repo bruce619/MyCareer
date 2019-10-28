@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissable">
+            <a href="{% url 'home' %}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+{% include 'sidebar.html' %}
+            <section class="job-form-section job-form-section--image">
+                <div class="container">
+                    <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="job-form-box">
+                        <h2 class="heading">Find a <span style="color: #E61C29;" class="accent">job</span> you will <span style="color: #E61C29;" class="accent">love</span>.</h2>
+                        <form id="job-main-form" method="get" action="{% url 'search' %}" class="job-main-form">
+                            <div class="controls">
+                                <div class="row align-items-center">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label for="title">Position</label>
+                                            <input type="text" id="title" name="title" placeholder="Position you are looking for" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit"
+                                                class="btn btn-outline-white-primary job-main-form__button">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+                </div>
+            </section>
+            <section class="bg-light-gray">
+                <div class="container">
+                    <h3 class="heading">Join us at N.U.E Offshore Resources </h3>
+                       <h4 style="text-align:center;">We have <span class="accent">{{ jobs.count }}</span> available job{{ jobs.count|pluralize }}</h4>
+                </div>
+            </section>
+            <section style="background-image: url({% static 'img/startup.jpg' %}); " class="section-divider">
+                <div class="overlay"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <h5 style="color:#E61C29;"><b>Start searching for your new job now!</b></h5>
+                            <p><a href="{% url 'job-listing' %}" class="btn btn-outline-light"><b>See our job offers</b></a></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+                <br/>
+           <!--Footer-->
+               <div class="footer font-small pt-4">
+                    <!-- Footer Links -->
+                    <div class="container-fluid text-center text-md-left">
+
+                         <!-- Grid row -->
+                         <div class="row">
+
+                               <!-- Grid column -->
+                               <div class="col-md-6 mt-md-0 mt-3">
+
+                                    <!-- Content -->
+                                    <h5 class="text-uppercase" style="color:black;">N.U.E Careers</h5>
+                                    <p style="color: white;">NUE Offshore resources careers portal. We provide you with an opportunity
+                                       to grow with us, gain experience and become a professional in the oil and gas, marine
+                                       industry.
+                                    </p>
+
+                                </div>
+                                <!-- Grid column -->
+
+                                <hr class="clearfix w-100 d-md-none pb-3">
+
+                                <!--Footer Widget-->
+                                   <article class="footer-widget quick-links col-md-3 col-sm-6 col-xs-12">
+                                       <h3 style="color:black;">About Us</h3>
+                                       <div class="widget-content">
+                                           <ul>
+                                             <li><a href="https://www.nueoffshore.com/about/">Company Profile</a></li>
+                                             <li><a href="https://www.nueoffshore.com/about/">Mission & Vision </a></li>
+                                             <li><a href="https://www.nueoffshore.com/about/">Our Fleet</a></li>
+                                             <li><a href="https://www.nueoffshore.com/about/">Contact Us</a></li>
+                                           </ul>
+                                       </div>
+                                   </article>
+
+                                <!--Footer Widget-->
+                                   <article class="footer-widget address col-md-3 col-sm-6 col-xs-12">
+                                       <h3 style="color:black;">Our Address</h3>
+                                       <div class="widget-content">
+                                           <ul class="info">
+                                               <li><span class="fa fa-phone"></span> &ensp; 0907 133 5935</li>
+                                               <li><span class="fa fa-map-marker"></span> &ensp; N.U.E Offshore Resources Ltd.<br/>26 Prof. Kunmi Akingbehin Street, <br/>Off Awkuzu Street, Off Omorinre Johnson, Lekki Phase 1, Lagos, Nigeria </li>
+                                           </ul>
+
+                                        <div class="social">
+                                               <a class="icon-facebook" href="https://www.facebook.com/nueoffshoreresources" target="_blank"> <i class="fab fa-facebook-f"></i></a>
+                                               <a class="icon-twitter" href="https://www.twitter.com/nueoffshore" target="_blank"><i class="fab fa-twitter"></i></a>
+                                               <a class="icon-linkedin" href="https://ng.linkedin.com/company/nueoffshoreresources" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                               <a class="icon-instagram" href="https://www.instagram.com/nueoffshore" target="_blank"> <i class="fab fa-instagram"></i></a>
+                                        </div>
+                                       </div>
+                                   </article>
+
+                          </div>
+                          <!-- Grid row -->
+
+                    </div>
+                    <!-- Footer Links -->
+
+                              <!-- Copyright -->
+                                <div class="footer-bottom">
+                                    <div class="auto-container text-center">All rights reserved. <a href="https://www.stores.nueoffshore.com">Nueoffshore Resources Ltd.</a> © 2018 &nbsp; | &nbsp;Expanding the Frontiers with Exceeding Grace</div>
+                                </div>
+                              <!-- Copyright -->
+               </div>
+          <!--End footer-->
+
+
+
+     </div>
+</div>
+{% endblock %}

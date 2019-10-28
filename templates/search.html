@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Search{% endblock %}
+
+{% block content %}
+{% include 'sidebar.html' %}
+
+             <section class="job-form-section job-form-section--compressed">
+                <div class="container">
+                    <h4 class="heading">Find a <span class="accent">job </span> you will <span class="accent">love</span></h4>
+                    <form id="job-main-form" method="get" action="#" class="job-main-form">
+                        <div class="controls">
+                            <div class="row align-items-end">
+                                <div class="col-sm-1 col-lg-2"></div>
+                                <div class="col-sm-5 col-lg-4 form-group">
+                                    <label for="title">Position</label>
+                                    <input type="text" id="title" name="title" placeholder="Position you are looking for" class="form-control">
+                                </div>
+                                <div class="col-sm-1 col-lg-2 form-group">
+                                    <button type="submit" name="name"
+                                            class="btn btn-outline-white-primary job-main-form__button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+             <section>
+                <div class="container">
+                    <h3 class="heading">We have found <span class="accent">{{ jobs.count }}</span> job{{ jobs.count|pluralize }}</h3>
+                    {% for job in jobs %}
+                        <ul class="job-listings mb-5">
+                          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+                            <a href="{% url 'job-detail' job.id %}"></a>
+                            <div class="job-listing-logo">
+                                <img src="{{ job.user.profile.image.url }}" alt="Free Website Template by Free-Template.co" class="img-fluid">
+                            </div>
+
+                            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
+                              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
+                                <h4>{{ job.title }}</h4>
+                              </div>
+                              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
+                                <i class="fa fa-map-marker-alt"></i>{{ job.location }}
+                              </div>
+                              <div class="job-listing-meta">
+                                  {% if job.type == 'Full time' %}
+                                    <span class="badge featured-badge badge-success">Full time</span>
+                                         {% elif job.type == 'Part time' %}
+                                    <span class="badge featured-badge badge-primary">Part time</span>
+                                      {% elif job.type == 'Internship' %}
+                                    <span class="badge featured-badge badge-warning">Internship</span>
+                                      {% else %}
+                                    <span style="color: #ffffff;" class="badge featured-badge badge-warning">Contract</span>
+                                  {% endif %}
+                              </div>
+                            </div>
+
+                  </li>
+                </ul>
+            {% endfor %}
+            {% if is_paginated %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-4 mb-4">
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a href="?page={{ page_obj.previous_page_number }}"
+                                           class="page-link">&laquo;</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link">&laquo;</a>
+                                    </li>
+                                {% endif %}
+                                {% for i in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == i %}
+                                        <li class="page-item active">
+                                            <a class="page-link">{{ i }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                            <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a href="?page={{ page_obj.next_page_number }}" class="page-link">&raquo;</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link">&raquo;</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+            </section>
+
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+Metadata-Version: 1.1
+Name: PyIntelliJ2Eclipse
+Version: 0.1
+Summary: A convenient python utility to convert IntelliJ IDEA project files to Eclipse project files
+Home-page: https://github.com/theincredebles/PyIntelliJ2Eclipse
+Author: Viswanath Kumar Skand Priya, Bharath Thiruveedula
+Author-email: kspviswa.github@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Keywords: build,intellij,eclipse
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
