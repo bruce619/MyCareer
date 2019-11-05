@@ -16,6 +16,7 @@ class SearchView(ListView):
     template_name = 'search.html'
     context_object_name = 'jobs'
 
+    #  Query the database for letters similar to the search
     def get_queryset(self):
         return self.model.objects.filter(title__contains=self.request.GET['title'])
 

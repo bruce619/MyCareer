@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
 
-
+# Choice Selection for Users Gender
 SEX_TYPE = (
     ('male', 'Male'),
     ('male', 'Female')
@@ -14,7 +14,9 @@ def user_directory_path(instance, filename):
     return 'user_{0}/{1}'.format(instance.user.id, filename)
 
 
+#  Profile Model: Will be saved the the database
 class Profile(models.Model):
+    # Columns for Profile Model
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=user_directory_path, default='default.jpg')
     sex = models.CharField(choices=SEX_TYPE, blank=True, max_length=10)
@@ -23,8 +25,10 @@ class Profile(models.Model):
     Nationality = models.CharField(blank=True, max_length=20)
 
     def __str__(self):
+        #  Return the username on the database "e.g Dean Profile"
         return f'{self.user.username} Profile'
 
+    # Saves a users profile
     def save(self, *args, **kwargs):
         super(Profile, self).save(*args, **kwargs)
 

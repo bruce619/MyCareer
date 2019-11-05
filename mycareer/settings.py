@@ -48,8 +48,9 @@ INSTALLED_APPS = [
 
 ]
 
+# CKEDITIOR file path
 CKEDITOR_UPLOAD_PATH = "uploads/"
-
+# Toolbar styling for CKeditor
 CKEDITOR_CONFIGS = {
     'default': {
         'skin': 'moono',
@@ -202,19 +203,20 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
+
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
 
 STATIC_ROOT = os.path.join(PROJECT_PATH, 'staticfiles')
-
+# Static directory
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(PROJECT_PATH, 'static')
 ]
-
+# Media directory
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
+# A bootstrap 4 form
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'home'

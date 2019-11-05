@@ -38,7 +38,7 @@ class ApplyJobView(CreateView):
         if applicant:
             messages.info(self.request, 'You already applied for this job')
             return HttpResponseRedirect(self.get_success_url())
-        # save applicant
+        # Get users full name, job role applied for, and pass it into an email and save user.
         form.instance.user = self.request.user
         fullname = self.request.user.get_full_name()
         job = Job.objects.get(id=self.kwargs['job_id'])

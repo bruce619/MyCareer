@@ -40,6 +40,7 @@ class ApplicantPerJobView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Get the job and pass it as a variable 'job' into the template
         context['job'] = Job.objects.get(id=self.kwargs['job_id'])
         return context
 
@@ -55,7 +56,7 @@ class QualifiedApplicantPerJobView(ListView):
         return super().dispatch(self.request, *args, **kwargs)
 
     def get_queryset(self):
-        # First we get the job itself.
+        # First we get the job itself by grabbing the job id.
         job = Job.objects.get(id=self.kwargs['job_id'])
 
         # Add an extra argument to the filter method.
@@ -78,7 +79,7 @@ class UnQualifiedApplicantPerJobView(ListView):
         return super().dispatch(self.request, *args, **kwargs)
 
     def get_queryset(self):
-        # First we get the job itself.
+        # First we get the job itself by grabbing the job id.
         job = Job.objects.get(id=self.kwargs['job_id'])
 
         # Add an extra argument to the filter method.
@@ -92,7 +93,9 @@ class UnQualifiedApplicantPerJobView(ListView):
 
 @login_required(login_url=reverse_lazy('login'))
 def filled(request, job_id=None):
+    # Gets the the job posted by the logged in user(Admin/HR/Staff)
     job = Job.objects.get(user_id=request.user.id, id=job_id)
+    # When Job is filled mark as filled
     job.filled = True
     job.save()
     return HttpResponseRedirect(reverse_lazy('job-listing'))
@@ -106,6 +109,7 @@ class EmployerCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Get the group name and pass it as a variable into the template
         context['in_group'] = self.request.user.groups.filter(name='Human Resources').exists()
         return context
 
@@ -156,6 +160,7 @@ class JobDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         job = self.get_object()
+        # Only users that created the post are permitted to delete the post
         if self.request.user == job.user:
             return True
         return False
