@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from bootstrap_datepicker_plus import DateTimePickerInput
 
 
 class DashboardView(ListView):
@@ -127,6 +128,11 @@ class EmployerUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     fields = ['title', 'location', 'description', 'requirement', 'years_of_experience', 'type', 'filled', 'last_date']
     template_name = 'job_form.html'
     pk_url_kwarg = 'id'
+
+    def get_form(self):
+        form = super().get_form()
+        form.fields['last_date'].widget = DateTimePickerInput()
+        return form
 
     def form_valid(self, form):
         form.instance.user = self.request.user

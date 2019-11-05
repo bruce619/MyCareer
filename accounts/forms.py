@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 
-YEARS = [x for x in range(1970, 2020)]
+YEARS = [x for x in range(1960, 2020)]
 
 
 class UserRegisterForm(UserCreationForm):

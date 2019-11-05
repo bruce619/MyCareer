@@ -25,8 +25,8 @@
                         <legend class="border-bottom mb-4">Profile Info</legend>
                         {{ u_form|crispy }}
                         {% if request.user|has_group:"Applicants" %}
-                        {{ p_form|crispy }}
-                         {% endif %}
+                            {{ p_form|crispy }}
+                        {% endif %}
                     </fieldset>
                     <div class="form-group">
                         <button class="btn btn-danger" type="submit">Update</button>

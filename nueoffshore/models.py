@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from ckeditor_uploader.fields import RichTextUploadingField
 
 DEGREE_TYPE = (
     ('B.Sc', "Bachelor's Degree"),
@@ -33,8 +34,8 @@ class Job(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     location = models.CharField(choices=country_state, max_length=20)
-    description = models.TextField()
-    requirement = models.TextField()
+    description = RichTextUploadingField()
+    requirement = RichTextUploadingField()
     years_of_experience = models.IntegerField(blank=True, null=True)
     type = models.CharField(choices=JOB_TYPE, max_length=10)
     last_date = models.DateTimeField()
