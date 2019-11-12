@@ -2,15 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8d0c2bf-5fc4-48d9-8d5c-d84c792bb0a8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/static/css/error.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/error_404.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/error_500.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/staticfiles/css/error.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mycareer/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycareer/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mycareer/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycareer/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nueoffshore/views/home.py" beforeDir="false" afterPath="$PROJECT_DIR$/nueoffshore/views/home.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/Django-2.2.5.dist-info/RECORD" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/Django-2.2.5.dist-info/RECORD" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Scripts/django-admin.exe" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Scripts/django-admin.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/staticfiles/ckeditor/ckeditor/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/staticfiles/ckeditor/ckeditor/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/error_404.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/error_500.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/500.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
