@@ -1,5 +1,6 @@
 from ..models import Job
 from django.views.generic import ListView, DetailView
+from django.shortcuts import render
 
 
 class HomeView(ListView):
@@ -41,9 +42,14 @@ class JobDetailView(DetailView):
         return context
 
 
+def error_404(request):
+        data = {}
+        return render(request, 'error_404.html', data)
 
 
-
+def error_500(request):
+    data = {}
+    return render(request, 'error_500.html', data)
 
 
 
