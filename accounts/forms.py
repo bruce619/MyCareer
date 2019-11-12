@@ -11,6 +11,13 @@ YEARS = [x for x in range(1960, 2020)]
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
 
+    def __init__(self, *args, **kwargs):
+        # first call parent's constructor
+        super(UserRegisterForm, self).__init__(*args, **kwargs)
+        # there's a `fields` property now
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
