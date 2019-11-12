@@ -8,41 +8,36 @@
             </div>
             {% if user.is_authenticated %}
             <ul class="list-unstyled components">
-                <li>
+                <li class="active">
                      <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" style="color:black;">
-                            <i class="fa fa-user-circle"></i>
-                            Account
+                        <i class="fa fa-user-circle"></i>Account
                      </a>
                     <ul class="collapse list-unstyled" id="pageSubmenu">
-                            <li>
-                                <a href="{% url 'profile' %}" style="color:black;"><b>Profile</b></a>
-                            </li>
+                        <li>
+                            <a href="{% url 'profile' %}" style="color:black;"><b>Profile</b></a>
+                        </li>
                     </ul>
                 </li>
-                <li class="active">
+                <li>
                     <a href="{% url 'home' %}" style="color:black;">
-                        <i class="fas fa-home"></i>
-                        Home
+                        <i class="fas fa-home"></i>Home
                     </a>
                 </li>
                 {% if request.user|has_group:"Human Resources" %}
                  <li>
                     <a href="{% url 'employer-dashboard' %}" style="color:black;">
-                        <i class="fa fa-bars"></i>
-                        Dashboard
+                     <i class="fa fa-bars"></i>Dashboard
                     </a>
                 </li>
                 {% endif %}
                 <li>
                     <a href="{% url 'job-listing' %}" style="color:black;">
-                        <i class="fas fa-briefcase"></i>
-                        Job Listings
+                        <i class="fas fa-briefcase"></i>Job Listings
                     </a>
                 </li>
                 <li>
                     <a href="{% url 'logout' %}" style="color:black";>
-                        <i class="fa fa-user-times"></i>
-                        Logout
+                        <i class="fa fa-user-times"></i>Logout
                     </a>
                 </li>
             </ul>
@@ -56,14 +51,12 @@
                 </li>
                 <li>
                     <a href="{% url 'job-listing' %}" style="color:black;">
-                        <i class="fas fa-briefcase"></i>
-                        Job Listings
+                        <i class="fas fa-briefcase"></i>Job Listings
                     </a>
                 </li>
                 <li>
                     <a href="{% url 'login' %}" style="color:black;">
-                        <i class="fa fa-user"></i>
-                        Login
+                        <i class="fa fa-user"></i>Login
                     </a>
                 </li>
                 <li>
