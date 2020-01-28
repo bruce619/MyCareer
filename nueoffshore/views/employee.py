@@ -1,13 +1,13 @@
-from django.core.mail import EmailMessage
-from django.template.loader import get_template
 from django.shortcuts import HttpResponseRedirect
 from django.urls import reverse_lazy
 from ..forms import ApplyJobForm
 from ..models import Applicants, Job
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.views.generic import CreateView
+import sweetify
+from django.views.generic import CreateView, ListView
+from django.template.loader import get_template
+from django.core.mail import EmailMessage
 
 
 # Apply For a Job
@@ -16,6 +16,7 @@ class ApplyJobView(CreateView):
     form_class = ApplyJobForm
     slug_field = 'job_id'
     slug_url_kwarg = 'job_id'
+    success_url = reverse_lazy('successful-apply')
 
     @method_decorator(login_required(login_url=reverse_lazy('login')))
     def dispatch(self, request, *args, **kwargs):
@@ -24,21 +25,13 @@ class ApplyJobView(CreateView):
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
-            messages.success(self.request, 'Successfully applied for this job!')
+            sweetify.success(self.request, title='Successfully Applied', text='You have successfully applied for this role', icon='success', button='Close', timer=3000)
             return self.form_valid(form)
         else:
-            return HttpResponseRedirect(reverse_lazy('home'))
-
-    def get_success_url(self):
-        return reverse_lazy('job-detail', kwargs={'id': self.kwargs['job_id']})
+            sweetify.error(self.request, title='Error', text='Application unsuccessful. Kindly re-apply with correct details, ensure the date format is properly entered', icon='error', button='Close', timer=5000)
+            return HttpResponseRedirect(reverse_lazy('job-detail', kwargs={'id': self.kwargs['job_id']}))
 
     def form_valid(self, form):
-        # check if user already applied
-        applicant = Applicants.objects.filter(user_id=self.request.user.id, job_id=self.kwargs['job_id'])
-        if applicant:
-            messages.info(self.request, 'You already applied for this job')
-            return HttpResponseRedirect(self.get_success_url())
-        # Get users full name, job role applied for, and pass it into an email and save user.
         form.instance.user = self.request.user
         fullname = self.request.user.get_full_name()
         job = Job.objects.get(id=self.kwargs['job_id'])
@@ -55,8 +48,23 @@ class ApplyJobView(CreateView):
             ['chimuanya.ibecheozor@nueoffshore.com'],
         )
         email.content_subtype = 'html'
-        email.send()
         form.save()
-        return super().form_valid(form)
+        email.send()
+        return super(ApplyJobView, self).form_valid(form)
 
 
+# See All Jobs User Applied for
+class AppliedJobs(ListView):
+    model = Applicants
+    template_name = 'my_job_list.html'
+    context_object_name = 'applications'
+    ordering = ['-date']
+    paginate_by = 3
+
+    @method_decorator(login_required(login_url=reverse_lazy('login')))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(self.request, *args, **kwargs)
+
+    def get_queryset(self):
+        user = self.request.user
+        return Job.objects.filter(applicants__user=user).distinct().order_by('-date')

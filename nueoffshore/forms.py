@@ -1,6 +1,7 @@
 from django import forms
 from .models import Job, Applicants
 from bootstrap_datepicker_plus import DateTimePickerInput
+import django_filters
 
 
 class CreateJobForm(forms.ModelForm):
@@ -32,3 +33,4 @@ class ApplyJobForm(forms.ModelForm):
     class Meta:
         model = Applicants
         fields = ('job', 'experience', 'degree', 'cv', 'certification', 'start_date', 'end_date')
+

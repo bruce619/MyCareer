@@ -1,10 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .forms import UserRegisterForm, AccountAuthenticationForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth import login, authenticate, logout
+import urllib.parse
+import sweetify
 
 
 def register(request):
@@ -30,12 +33,49 @@ def register(request):
             my_group.user_set.add(newRegisteredUser.id)
             user = User.objects.get(username=username)
             # Success message after submission
-            messages.success(request, f'Account has been created for {user}! Log into your account and complete your profile')
+            sweetify.success(request, title='Account Created', text='Your account has been created, log in and complete your profile', icon='success', button='Ok', timer=3000)
             return redirect('login')
     else:
         # If this is a GET (or any other method) create the default form.
         form = UserRegisterForm()
     return render(request, 'signup.html', {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')
+
+
+def login_view(request):
+    redirect_to = urllib.parse.unquote(request.GET.get('next', 'home'))
+    form = AccountAuthenticationForm
+    # Check if the form is a get method
+    if request.method == "GET":
+        context = {'form': form}
+        return render(request, 'registration/login.html', context)
+    user = request.user
+    if user.is_authenticated:
+        return redirect("home")
+
+    if request.method == 'POST':
+        form = AccountAuthenticationForm(request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+
+            if user:
+                login(request, user)
+                if request.user.profile.date_of_birth is None or request.user.profile.phone_number is None or request.user.profile.sex is None:
+                    sweetify.info(request, title='Update Profile', text='Kindly complete your profile', icon='info', button='Ok', timer=5000)
+                    return redirect("profile")
+                else:
+                    return redirect(redirect_to)
+
+    else:
+        form = AccountAuthenticationForm()
+
+    return render(request, "registration/login.html", {'form': form})
 
 
 # Handles the Profile view
@@ -51,8 +91,8 @@ def profile(request):
             # Save the forms
             u_form.save()
             p_form.save()
-            messages.success(request, f'Your account has been updated!')
-            return redirect('profile')
+            sweetify.success(request, title='Account Updated', text='Your account has been updated!', icon='success', button='Ok', timer=3000)
+            return redirect('home')
     else:
         # If this is a GET (or any other method) create the default form.
         u_form = UserUpdateForm(instance=request.user)
@@ -64,4 +104,3 @@ def profile(request):
     }
 
     return render(request, 'profile.html', context)
-

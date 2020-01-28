@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Dashboard{% endblock %}
 
+
 {% block content %}
 {% include 'sidebar.html' %}
         <section class="bg-light-gray">
@@ -26,9 +27,7 @@
                                 <th>Job title</th>
                                 <th>Position filled</th>
                                 <th>Date expiring</th>
-                                <th>Total Applicants</th>
-                                <th>Qualified Applicants</th>
-                                <th>Unqualified Applicants</th>
+                                <th>Applicants</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -46,21 +45,9 @@
                                     </td>
                                     <td>{{ job.last_date }}</td>
                                     <td>
-                                        <a href="{% url 'employer-dashboard-applicants' job.id %}" class="btn btn-warning">
+                                        <a href="{% url 'employer-dashboard-screen' job.id %}" class="btn btn-warning">
                                             <i class="fa fa-users"></i>{{ job.applicants.count }}
-                                            <span class="hidden-xs hidden-sm">All Applicants</span>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{% url 'employer-dashboard-qualified-applicants' job.id %}" class="btn btn-success">
-                                            <i class="fa fa-users"></i>{{ job.qualified.count }}
-                                            <span class="hidden-xs hidden-sm">Qualified Applicants</span>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{% url 'employer-dashboard-unqualified-applicants' job.id %}" class="btn btn-danger">
-                                            <i class="fa fa-users"></i>{{ job.unqualified.count }}
-                                            <span class="hidden-xs hidden-sm">Unqaualified Applicants</span>
+                                            <span class="hidden-xs hidden-sm">Applicants</span>
                                         </a>
                                     </td>
                                     <td>
@@ -76,6 +63,9 @@
                                                 <span class="hidden-xs hidden-sm">Mark as </span>filled
                                             </a><br>
                                         {% endif %}
+                                        <a href="{% url 'job-delete' job.id %}" class="btn btn-outline-white-secondary">
+                                            <i class="fa fa-trash"></i>Delete
+                                        </a>
                                     </td>
                                 </tr>
                             {% endfor %}

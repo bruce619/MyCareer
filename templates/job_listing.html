@@ -3,15 +3,20 @@
 
 
 {% block content %}
+{% include 'sidebar.html' %}
 {% if messages %}
     {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissable">
-            <a href="{% url 'job-listing' %}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                {{ message }}
-        </div>
+        {% if message.tags == 'success'%}
+            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+        {% elif message.tags == 'info' %}
+            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+        {% elif message.tags == 'warning' %}
+            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+        {% elif message.tags == 'error' %}
+            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+        {% endif %}
     {% endfor %}
 {% endif %}
-{% include 'sidebar.html' %}
             {% for job in jobs %}
                  <ul class="job-listings mb-5">
                   <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
@@ -27,6 +32,9 @@
                       <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
                         <i class="fa fa-map-marker-alt"></i>{{ job.location }}
                       </div>
+                        <div class="col-10 col-md-3 col-lg-3 ml-auto">
+                            <p>Posted {{ job.created_at|timesince }}</p>
+                        </div>
                       <div class="job-listing-meta">
                           {% if job.type == 'Full time' %}
                             <span class="badge featured-badge badge-success">Full time</span>
@@ -48,22 +56,22 @@
             {% if is_paginated %}
 
                 {% if page_obj.has_previous %}
-                    <a class="btn btn-info mb-4" href="?page=1">First</a>
-                    <a class="btn btn-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    <a style="background: #00ABF0;"  class="btn btn-info mb-4" href="?page=1">First</a>
+                    <a style="background: #00ABF0;"  class="btn btn-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
                 {% endif %}
 
                 {% for num in page_obj.paginator.page_range %}
                     {% if page_obj.number == num %}
-                        <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                        <a style="background: #00ABF0;"  class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
                     {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                        <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                        <a style="background: #00ABF0;"  class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
                     {% endif %}
                 {% endfor %}
 
 
                  {% if page_obj.has_next %}
-                    <a class="btn btn-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-                    <a class="btn btn-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                    <a style="background: #00ABF0;"  class="btn btn-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a style="background: #00ABF0;"  class="btn btn-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
                  {% endif %}
 
             {% endif %}

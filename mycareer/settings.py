@@ -26,8 +26,18 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mydjangocareerapp.herokuapp.com']
+# 'mydjangocareerapp.herokuapp.com'
 
+ALLOWED_HOSTS = []
+
+PASSWORD_HASHERS = (
+        'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+        'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+        'django.contrib.auth.hashers.BCryptPasswordHasher',
+        'django.contrib.auth.hashers.SHA1PasswordHasher',
+        'django.contrib.auth.hashers.MD5PasswordHasher',
+        'django.contrib.auth.hashers.CryptPasswordHasher',
+)
 
 # Application definition
 
@@ -38,18 +48,27 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'nueoffshore',
     'crispy_forms',
     'rest_framework',
-    'accounts.apps.AccountsConfig',
     'ckeditor',
     'ckeditor_uploader',
+    'bootstrap_modal_forms',
     'bootstrap_datepicker_plus',
     'bootstrap4',
     'storages',
+    'sweetify',
+    'django_filters',
+    'bootstrapform',
+    'anymail',
 
+    # custom app
+    'nueoffshore',
+    'accounts.apps.AccountsConfig',
 ]
 
+# possible options: 'sweetalert', 'sweetalert2' - default is 'sweetalert2'
+# sweetify
+SWEETIFY_SWEETALERT_LIBRARY = 'sweetalert2'
 # CKEDITIOR file path
 CKEDITOR_UPLOAD_PATH = "uploads/"
 # Toolbar styling for CKeditor
@@ -221,8 +240,8 @@ MEDIA_URL = '/media/'
 # A bootstrap 4 form
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'login'
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "login"
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
@@ -235,16 +254,23 @@ EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME')
-S3_USE_SIGV4 = os.environ.get('S3_USE_SIGV4')
+# AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+# AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+# AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+# AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME')
+# S3_USE_SIGV4 = os.environ.get('S3_USE_SIGV4')
+#
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL = None
+#
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#
+#
+# django_heroku.settings(locals())
 
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
-django_heroku.settings(locals())
+
+
+
+

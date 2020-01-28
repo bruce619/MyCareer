@@ -16,6 +16,11 @@
                         <li>
                             <a href="{% url 'profile' %}" style="color:black;"><b>Profile</b></a>
                         </li>
+                        {% if request.user|has_group:"Applicants" %}
+                        <li>
+                            <a href="{% url 'my-applied-jobs' %}" style="color:black;"><b>Applied Jobs</b></a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </li>
                 <li>
@@ -36,6 +41,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{% url 'search' %}" style="color:black;">
+                        <i class="fas fa-search"></i>Search Job
+                    </a>
+                </li>
+                <li>
                     <a href="{% url 'logout' %}" style="color:black";>
                         <i class="fa fa-user-times"></i>Logout
                     </a>
@@ -52,6 +62,11 @@
                 <li>
                     <a href="{% url 'job-listing' %}" style="color:black;">
                         <i class="fas fa-briefcase"></i>Job Listings
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'search' %}" style="color:black;">
+                        <i class="fas fa-search"></i>Search Job
                     </a>
                 </li>
                 <li>

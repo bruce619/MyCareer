@@ -19,23 +19,23 @@ class Profile(models.Model):
     # Columns for Profile Model
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=user_directory_path, default='default.jpg')
-    sex = models.CharField(choices=SEX_TYPE, blank=True, max_length=10)
+    sex = models.CharField(choices=SEX_TYPE, null=True, blank=True, max_length=10)
     date_of_birth = models.DateField(null=True, blank=True)
-    phone_number = models.CharField(blank=True, max_length=20)
-    Nationality = models.CharField(blank=True, max_length=20)
+    phone_number = models.CharField(null=True, blank=True, max_length=20)
+    Nationality = models.CharField(null=True, blank=True, max_length=20)
 
     def __str__(self):
         #  Return the username on the database "e.g Dean Profile"
         return f'{self.user.username} Profile'
 
     # Saves a users profile
-    # def save(self, *args, **kwargs):
-    #     super(Profile, self).save(*args, **kwargs)
-    #
-    #     img = Image.open(self.image.path)
-    #
-    #     if img.height > 300 or img.width > 300:
-    #         output_size = (300, 300)
-    #         img.thumbnail(output_size)
-    #         img.save(self.image.path)
+    def save(self, *args, **kwargs):
+        super(Profile, self).save(*args, **kwargs)
+
+        img = Image.open(self.image.path)
+
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
 

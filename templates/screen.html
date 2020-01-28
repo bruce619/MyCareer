@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block content %}
+{% include 'sidebar.html' %}
+        <section class="bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h3 class="heading">Applicants for the <span class="accent">{{ job.title }}</span> position</h3>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <form method="get" enctype="multipart/form-data">
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4"><b>Screen Applicants</b></legend>
+                        {{ filter.form|bootstrap }}
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-outline-white-primary job-main-form__button" type="submit"><i class="fa fa-search"></i>Filter Candidates</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </section>
+
+        <section>
+
+        <div class="container">
+            <div class="row">
+                {% for applicant in object_list %}
+                    <div class="col-lg-6">
+                        <div class="box applicant">
+                            <h4>{{ applicant.user.get_full_name }}</h4>
+                            <a href="tel:{{ applicant.user.phone_number }}" target="_top" data-toggle="modal" data-target="#contact-modal" class="btn btn-outline-white-secondary btn-sm">
+                                <i class="fa fa-envelope"></i>Contact: {{ applicant.user.profile.phone_number }}
+                            </a><br/>
+                            <a href="mailto:{{ applicant.user.email }}" target="_top" data-toggle="modal" data-target="#contact-modal" class="btn btn-outline-white-secondary btn-sm">
+                                <i class="fa fa-envelope"></i>Email: {{ applicant.user.email }}
+                            </a>
+                            <p>
+                                <span class="badge badge-info">Applied {{ applicant.created_at.astimezone }}</span>
+                            </p>
+                            <article class="media content-section">
+                               <img class="img-circle article-img" src="{{ applicant.user.profile.image.url }}">
+                              <div class="media-body">
+                                  <h2 class="article-title">Applicant Details</h2>
+                                  <p class="article-title"> <b style="color:black;">sex:</b> {{ applicant.user.profile.sex }}</p>
+                                  <p class="article-title"> <b style="color:black;">Date Of Birth:</b> {{ applicant.user.profile.date_of_birth | date:"F d, Y" }}</p>
+                                  <p class="article-title"> <b style="color:black;">Nationality:</b> {{ applicant.user.profile.Nationality }}</p>
+                                  <p class="article-title"> <b style="color:black;">Institution:</b> {{ applicant.user.profile.institution }}</p>
+                                  <p class="article-title"> <b style="color:black;">Degree:</b> {{ applicant.degree }}</p>
+                                  <p class="article-title"> <b style="color:black;">Years of Experience:</b> {{ applicant.experience }}</p>
+                                  {% if applicant.cv %}
+                                  <button class="button-download"><i class="fa fa-download"></i> <a target="_blank" href="{{ applicant.cv.url}}">Applicant CV:</a></button> CV for this role
+                                  {% else %}
+                                        <p class="article-title">This user hasn't uploaded their cv</p>
+                                  {% endif %}
+                                  <br/><br/>
+                                  {% if applicant.certification %}
+                                       <button class="button-download"><i class="fa fa-download"></i> <a target="_blank" href="{{ applicant.certification.url}}">Certification:</a></button>
+                                       {{applicant.start_date }} - {{applicant.end_date }}
+                                  {% else %}
+                                        <p>This user hasn't uploaded their certification</p>
+                                  {% endif %}
+                              </div>
+                           </article>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            {% if is_paginated %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-4 mb-4">
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a href="??{{ queries.urlencode }}&amp;page={{ page_obj.previous_page_number }}"
+                                           class="page-link">&laquo;</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link">&laquo;</a>
+                                    </li>
+                                {% endif %}
+                                {% for i in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == i %}
+                                        <li class="page-item active">
+                                            <a class="page-link">{{ i }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                            <a href="?{{ queries.urlencode }}&amp;page={{ i }}" class="page-link">{{ i }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a href="?{{ queries.urlencode }}&amp;page={{ page_obj.next_page_number }}" class="page-link">&raquo;</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link">&raquo;</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </section>
+
+
+    </div>
+</div>
+{% endblock %}

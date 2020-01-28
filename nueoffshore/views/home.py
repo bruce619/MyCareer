@@ -1,25 +1,44 @@
 from ..models import Job
 from django.views.generic import ListView, DetailView
+from accounts.forms import ProfileUpdateForm
 from django.shortcuts import render
+from django.utils import timezone
+from ..filters import SearchFilter
+from django_filters.views import FilterView
 
 
 class HomeView(ListView):
     model = Job
     template_name = 'home.html'
     context_object_name = 'jobs'
+    form_class = ProfileUpdateForm
 
     def get_queryset(self):
         return self.model.objects.all()[:6]
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['trendings'] = self.model.objects.filter(created_at__month=timezone.now().month)[:3]
+        return context
 
-class SearchView(ListView):
+
+class SearchView(FilterView):
     model = Job
     template_name = 'search.html'
+    filterset_class = SearchFilter
+    ordering = ['-date']
+    paginate_by = 3
     context_object_name = 'jobs'
+    strict = False
 
-    #  Query the database for letters similar to the search
-    def get_queryset(self):
-        return self.model.objects.filter(title__contains=self.request.GET['title'])
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = SearchFilter(self.request.GET, queryset=self.get_queryset())
+        query = self.request.GET.copy()
+        if 'page' in query:
+            del query['page']
+        context['queries'] = query
+        return context
 
 
 class JobListView(ListView):

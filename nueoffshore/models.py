@@ -18,7 +18,7 @@ JOB_TYPE = (
 
 country_state = (
     ('Lagos', 'Lagos State'),
-    ('Rivers', 'Rivers State'),
+    ('River', 'Rivers State'),
     ('Abuja', 'FCT'),
     ('Delta', 'Delta State'),
     ('Enugu', 'Enugu State'),
@@ -60,4 +60,8 @@ class Applicants(models.Model):
 
     def __str__(self):
         return f'{self.user.get_full_name()} Applied'
+
+
+
+
 

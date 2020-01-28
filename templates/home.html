@@ -3,42 +3,73 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissable">
-            <a href="{% url 'home' %}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                {{ message }}
-        </div>
-    {% endfor %}
-{% endif %}
 {% include 'sidebar.html' %}
+                <div id="carouselExampleIndicators" class="carousel slide carousel-animation" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                      <!-- Slide One - Set the background image for this slide in the line below -->
+                      <div class="carousel-item active" style="background-image: url({% static 'img/slide_3.jpg' %})">
+                        <div class="carousel-caption d-md-block">
+                          <h3 style="color: white;" data-animation="animated bounceInLeft">N.U.E OFFSHORE RESOURCES LTD.</h3>
+                            <p style="color: white;"  data-animation="animated bounceInRight">We specialize in providing Marine Vessel Management Services,
+                                Logistics Services, Personal Protective Equipment (PPE), Drilling and Production Chemicals,
+                                Valve maintenance Services, Pipe Coating and other procurement activities to Oil and Gas Companies in Nigeria and West Africa, among others.</p>
+                          <a href="https://www.nueoffshore.com/services/"><button class="btn btn-primary btn-sm" data-animation="animated zoomInUp">Learn more</button></a>
+                        </div>
+                      </div>
+                      <!-- Slide Two - Set the background image for this slide in the line below -->
+                      <div class="carousel-item" style="background-image: url({% static 'img/slide_4.jpg' %})">
+                        <div class="carousel-caption d-md-block">
+                            <h2 style="color: white;" class="icon-container" data-animation="animated bounceInDown">CAREERS AT N.U.E OFFSHORE</h2>
+                            <P style="color: white;" data-animation="animated bounceInUp">Explore opportunities to take your career to the next level. Whether you are a student,
+                                a graduate or an experienced professional, discover the impact you could make with a career at N.U.E Offshore Resources.</P>
+                            <a href="#"><button class="btn btn-primary btn-sm" data-animation="animated zoomInRight">Learn more</button></a>
+                        </div>
+                      </div>
+                        <!-- Slide Three - Set the background image for this slide in the line below -->
+                      <div class="carousel-item" style="background-image: url({% static 'img/guardsman.jpg' %})">
+                        <div class="carousel-caption d-md-block">
+                            <h2 style="color: white;" class="icon-container" data-animation="animated flip">5 GREAT REASONS TO JOIN US</h2>
+                            <p style="color: white;" data-animation="animated jackInTheBox">Joining N.U.E Offshore Resources means contributing to a shared ambition for responsible energy,
+                                tackling extraordinary technological challenges in multicultural teams, preserving your work/life balance and more!</p>
+                            <a href="#"><button class="btn btn-primary btn-sm" data-animation="animated wobble">Learn more</button></a>
+                        </div>
+                      </div>
+                      <!-- Slide Four - Set the background image for this slide in the line below -->
+                      <div class="carousel-item" style="background-image: url({% static 'img/slide_2.jpg' %})">
+                        <div class="carousel-caption d-md-block">
+                            <h2 style="color: white;" class="icon-container" data-animation="animated zoomInLeft">LIFE AT N.U.E OFFSHORE</h2>
+                            <p style="color: white;" data-animation="animated flipInX">Meet, and be inspired by, our pioneers, innovators, adventurers and explorers across the world.
+                                Discover their stories and get an insight into careers at N.U.E Offshore Resources.</p>
+                            <a href="#"><button class="btn btn-primary btn-sm" data-animation="animated lightSpeedIn">Learn more</button></a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- controls -->
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                  </div>
             <section class="job-form-section job-form-section--image">
                 <div class="container">
                     <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <div class="job-form-box">
-                        <h2 class="heading">Find a <span style="color: #E61C29;" class="accent">job</span> you will <span style="color: #E61C29;" class="accent">love</span>.</h2>
-                        <form id="job-main-form" method="get" action="{% url 'search' %}" class="job-main-form">
-                            <div class="controls">
-                                <div class="row align-items-center">
-                                    <div class="col-md-5">
-                                        <div class="form-group">
-                                            <label for="title">Position</label>
-                                            <input type="text" id="title" name="title" placeholder="Position you are looking for" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button type="submit"
-                                                class="btn btn-outline-white-primary job-main-form__button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                        <div class="col-lg-8 mx-auto">
+                            <div class="job-form-box">
+                                <h2 class="heading">Find a <span style="color: #E61C29;" class="accent">job</span> you will <span style="color: #E61C29;" class="accent">love</span>.</h2>
+
                             </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
-            </div>
                 </div>
             </section>
             <section class="bg-light-gray">
@@ -47,13 +78,43 @@
                        <h4 style="text-align:center;">We have <span class="accent"> {{ jobs.count }} </span> job{{ jobs.count|pluralize }} listed</h4>
                 </div>
             </section>
+            <section>
+                <div class="container">
+                    <h4 class="heading">Latest Jobs</h4>
+                    {% for trending in trendings %}
+                        <div class="job-listing  job-listing--last">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-6">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <img src="{{ trending.user.profile.image.url }}"
+                                                 alt="ShareBoardd " class="img-fluid">
+                                        </div>
+                                        <div class="col-10">
+                                            <h4 class="job__title">
+                                                <a href="{% url 'job-detail' trending.id %}">{{ trending.title }}</a>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-10 col-md-3 col-lg-2 ml-auto"><i class="fa fa-map-marker job__location"></i>
+                                    {{ trending.location }}
+                                </div>
+                                <div class="col-10 col-md-3 col-lg-3 ml-auto">
+                                    <p>Posted {{ trending.created_at|timesince }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
             <section style="background-image: url({% static 'img/startup.jpg' %}); " class="section-divider">
                 <div class="overlay"></div>
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 text-center">
                             <h5 style="color:#E61C29;"><b>Start searching for your new job now!</b></h5>
-                            <p><a href="{% url 'job-listing' %}" class="btn btn-outline-light"><b>See our job offers</b></a></p>
+                            <p><a href="{% url 'job-listing' %}" class="btn btn-outline-light"><b>See other job offers</b></a></p>
                         </div>
                     </div>
                 </div>
@@ -72,7 +133,7 @@
 
                                     <!-- Content -->
                                     <h5 class="text-uppercase" style="color:black;">N.U.E Careers</h5>
-                                    <p style="color: white;">NUE Offshore resources careers portal. We provide you with an opportunity
+                                    <p style="color: white;">N.U.E Offshore Resources careers portal. We provide you with an opportunity
                                        to grow with us, gain experience and become a professional in the oil and gas, marine
                                        industry.
                                     </p>
@@ -84,7 +145,7 @@
 
                                 <!--Footer Widget-->
                                    <article class="footer-widget quick-links col-md-3 col-sm-6 col-xs-12">
-                                       <h3 style="color:black;">About Us</h3>
+                                       <h3>About Us</h3>
                                        <div class="widget-content">
                                            <ul>
                                              <li><a href="https://www.nueoffshore.com/about/">Company Profile</a></li>
@@ -97,7 +158,7 @@
 
                                 <!--Footer Widget-->
                                    <article class="footer-widget address col-md-3 col-sm-6 col-xs-12">
-                                       <h3 style="color:black;">Our Address</h3>
+                                       <h3>Our Address</h3>
                                        <div class="widget-content">
                                            <ul class="info">
                                                <li><span class="fa fa-phone"></span> &ensp; 0907 133 5935</li>

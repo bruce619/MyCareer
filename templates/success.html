@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Application Successful{% endblock %}
+
+{% block content %}
+{% include 'sidebar.html' %}
+        <div class="jumbotron text-center">
+          <h1 class="display-3">Thank You!</h1>
+          <p class="lead">You have successfully applied.</p>
+          <p class="lead" style="color: red;">Note that only those who are selected will be contacted</p>
+           <i style="font-size: 500%; color:green;" class="far fa-check-circle"></i>
+          <hr>
+          <p class="lead">
+            <a class="btn btn-success btn-sm" href="{% url 'home' %}" role="button">Continue to homepage</a>
+            <a class="btn btn-warning btn-sm" href="{% url 'my-applied-jobs' %}" role="button">View My Applied Jobs</a>
+          </p>
+        </div>
+
+
+    </div>
+</div>
+{% endblock content %}

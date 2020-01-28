@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
+from django.contrib.auth import authenticate
+
 
 # List of Calender Year
 YEARS = [x for x in range(1960, 2020)]
@@ -9,7 +11,7 @@ YEARS = [x for x in range(1960, 2020)]
 
 # Form for User Registration
 class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField()
+    email = forms.EmailField(max_length=254, help_text='Required. Add a valid email address.')
 
     def __init__(self, *args, **kwargs):
         # first call parent's constructor
@@ -21,6 +23,21 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
+
+
+class AccountAuthenticationForm(forms.ModelForm):
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ('username', 'password')
+
+    def clean(self):
+        if self.is_valid():
+            username = self.cleaned_data['username']
+            password = self.cleaned_data['password']
+            if not authenticate(username=username, password=password):
+                raise forms.ValidationError("Invalid login")
 
 
 # User Update form for Profile

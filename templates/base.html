@@ -23,8 +23,17 @@
     <link rel="stylesheet" href="{% static 'fontawesome5.4.2/css/all.css' %}">
     <!--Customized css-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!--===============================================================================================-->
     <link rel="stylesheet" href="{% static 'css/job.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="{% static 'css/checkbox.css' %}">
+    <!--===============================================================================================-->
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+
 </head>
 <body>
 
@@ -33,15 +42,22 @@
 {% endblock %}
 
 
-
-<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 <script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.4.1.min.js"></script>
+<!--==============================================================================================-->
+<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 <!-- Font Awesome JS -->
 <script type="text/javascript" src="{% static 'fontawesome5.4.2/js/solid.js' %}"></script>
+<!--==============================================================================================-->
 <script type="text/javascript" src="{% static 'fontawesome5.4.2/js/fontawesome.js' %}"></script>
+<!--==============================================================================================-->
 <script type="text/javascript" src="{% static 'fontawesome5.4.2/js/all.js' %}"></script>
 <!--Custom JS-->
 <script type="text/javascript" src="{% static 'js/navbar.js' %}"></script>
+<!--==============================================================================================-->
+<script type="text/javascript" src="{% static 'js/carousel.js' %}"></script>
+<!--==============================================================================================-->
+<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+<!--==============================================================================================-->
 <script>
 /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
 var dropdown = document.getElementsByClassName("dropdown-toggle");
@@ -58,5 +74,7 @@ for (i = 0; i < dropdown.length; i++) {
   });
 }
 </script>
+{% load sweetify %}
+{% sweetify %}
 </body>
 </html>
