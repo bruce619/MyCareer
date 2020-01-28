@@ -45,7 +45,7 @@ class ApplyJobView(CreateView):
             "New applicant form submission",
             content,
             'CAREERS N.U.E OFFSHORE' + '',
-            ['chimuanya.ibecheozor@nueoffshore.com'],
+            [#'email'],
         )
         email.content_subtype = 'html'
         form.save()
