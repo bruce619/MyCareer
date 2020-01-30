@@ -8,30 +8,18 @@
         .mail {
             background: #D3D3D3;
         }
-        .card {
-          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-          max-width: 300px;
-          margin: auto;
-          text-align: center;
-          font-family: arial;
-        }
-
-        .title {
-              color: grey;
-              font-size: 18px;
-            }
 
         button {
+          background-color: #008CBA; /* Blue */
           border: none;
-          outline: 0;
-          display: inline-block;
-          padding: 8px;
           color: white;
-          background-color: red;;
+          padding: 5px 32px;
           text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
           cursor: pointer;
-          width: 100%;
-          font-size: 18px;
         }
 
         button:hover, a:hover {
@@ -41,15 +29,11 @@
 </head>
 <body>
     <div class="mail">
-        <h2 style="text-align:center"> New Job Position</h2>
-
-        <h3 style="text-align:center">A new job position has just been posted on the N.U.E Offshore Resources Careers portal,
-            Hurry now and apply.
-            Cheers!!
-        </h3>
-        <div class="card">
-          <button>Visit <a href="http://127.0.0.1:8000/jobs/job-listing/">nueoffshore.com</a> to follow up </button>
-        </div>
+        <p>A new job position has just been posted on the N.U.E Offshore Resources Careers portal</p>
+        <p>Hurry now and apply.</p>
+        <p>Cheers!!</p>
+        <p>Visit link below to see latest job positions<p>
+        <button><a href="http://127.0.0.1:8000/jobs/job-listing/">nueoffshore.com</a></button>
      </div>
 </body>
 </html>

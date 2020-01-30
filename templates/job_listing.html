@@ -4,19 +4,7 @@
 
 {% block content %}
 {% include 'sidebar.html' %}
-{% if messages %}
-    {% for message in messages %}
-        {% if message.tags == 'success'%}
-            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
-        {% elif message.tags == 'info' %}
-            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
-        {% elif message.tags == 'warning' %}
-            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
-        {% elif message.tags == 'error' %}
-            <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
-        {% endif %}
-    {% endfor %}
-{% endif %}
+    {% if jobs %}
             {% for job in jobs %}
                  <ul class="job-listings mb-5">
                   <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
@@ -51,6 +39,10 @@
                   </li>
                 </ul>
             {% endfor %}
+    {% else %}
+            <br>
+            <h3><b>There are no jobs Available</b></h3>
+    {% endif %}
 
         <!--Pagination-->
             {% if is_paginated %}

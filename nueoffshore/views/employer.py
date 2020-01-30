@@ -83,11 +83,11 @@ class EmployerCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.save()
-        users_emails = User.objects.filter(groups__name='Applicants').values_list('email', flat=True)
+        users_emails = (User.objects.filter(groups__name='Applicants').values_list('email', flat=True))
         for user_email in users_emails:
             email = EmailMultiAlternatives(
                 subject="New Job Position",
-                from_email=settings.EMAIL_HOST_USER,
+                from_email='CAREERS N.U.E OFFSHORE' + '',
                 to=[user_email],
             )
             context = {}

@@ -61,12 +61,14 @@ class JobDetailView(DetailView):
         return context
 
 
-def handler404(request, exception):
-    return render(request, '404.html', status=404)
+def error_404(request):
+    data = {}
+    return render(request, 'error_404.html', data)
 
 
-def handler500(request):
-    return render(request, '500.html', status=500)
+def error_500(request):
+    data = {}
+    return render(request, 'error_500.html', data)
 
 
 

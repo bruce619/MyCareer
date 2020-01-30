@@ -8,30 +8,18 @@
         .mail {
             background: #D3D3D3;
         }
-        .card {
-          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-          max-width: 300px;
-          margin: auto;
-          text-align: center;
-          font-family: arial;
-        }
-
-        .title {
-              color: grey;
-              font-size: 18px;
-            }
 
         button {
-          border: none;
-          outline: 0;
-          display: inline-block;
-          padding: 8px;
-          color: white;
-          background-color: red;;
-          text-align: center;
-          cursor: pointer;
-          width: 100%;
-          font-size: 18px;
+              background-color: #008CBA; /* Blue */
+              border: none;
+              color: white;
+              padding: 5px 32px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+              margin: 4px 2px;
+              cursor: pointer;
         }
 
         button:hover, a:hover {
@@ -41,15 +29,11 @@
 </head>
 <body>
     <div class="mail">
-        <h2 style="text-align:center"> New Applicant</h2>
-
-        <h3 style="text-align:center">A new applicant has applied for a job role on the careers portal</h3>
-
-        <div class="card">
-          <p class="title"><b>Applicant Name:</b> {{ fullname }}</p>
-          <p class="title"><b>Job Title:</b> {{ job.title }}</p>
-          <button>Visit <a href="http://127.0.0.1:8000/employer/dashboardscreen/{{job.id}}">nueoffshore.com</a> to follow up </button>
-        </div>
+        <p>A new applicant has applied for a job role on the careers portal</p>
+        <p class="title"><b>Applicant Name:</b> {{ fullname }}</p>
+        <p class="title"><b>Job Title:</b> {{ job.title }}</p>
+        <p>Visit the link below to follow up on applicants</p>
+        <button><a href="http://127.0.0.1:8000/employer/dashboardscreen/{{job.id}}">nueoffshore.com</a> </button>
      </div>
 </body>
 </html>

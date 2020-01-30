@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import login_required
 import sweetify
 from django.views.generic import CreateView, ListView
 from django.template.loader import get_template
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.contrib.auth.models import User
 
 
 # Apply For a Job
@@ -31,25 +32,47 @@ class ApplyJobView(CreateView):
             sweetify.error(self.request, title='Error', text='Application unsuccessful. Kindly re-apply with correct details, ensure the date format is properly entered', icon='error', button='Close', timer=5000)
             return HttpResponseRedirect(reverse_lazy('job-detail', kwargs={'id': self.kwargs['job_id']}))
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
+    def human_resources_mail(self):
         fullname = self.request.user.get_full_name()
         job = Job.objects.get(id=self.kwargs['job_id'])
-        template = get_template('applicants_template.html')
-        context = {
-            'fullname': fullname,
-            'job': job,
-        }
-        content = template.render(context)
-        email = EmailMessage(
-            "New applicant form submission",
-            content,
-            'CAREERS N.U.E OFFSHORE' + '',
-            ['chimuanya.ibecheozor@nueoffshore.com'],
-        )
-        email.content_subtype = 'html'
+        hr_email = (User.objects.filter(groups__name='Human Resources').values_list('email', flat=True))
+        for h_mail in hr_email:
+            email = EmailMultiAlternatives(
+                subject="New applicant form submission",
+                from_email='CAREERS N.U.E OFFSHORE' + '',
+                to=[h_mail],
+            )
+            context = {
+                'fullname': fullname,
+                'job': job,
+            }
+            html_template = get_template("applicants_template.html").render(context)
+            email.attach_alternative(html_template, "text/html")
+            email.send()
+            break
+
+    def applicant_mail(self):
+        job = Job.objects.get(id=self.kwargs['job_id'])
+        applicants_email = (User.objects.filter(groups__name='Applicants').values_list('email', flat=True))
+        for a_mail in applicants_email:
+            email = EmailMultiAlternatives(
+                subject="Application successful",
+                from_email='CAREERS N.U.E OFFSHORE' + '',
+                to=[a_mail],
+            )
+            context = {
+                'job': job,
+            }
+            html_template = get_template("application_successful.html").render(context)
+            email.attach_alternative(html_template, "text/html")
+            email.send()
+            break
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
         form.save()
-        email.send()
+        self.human_resources_mail()
+        self.applicant_mail()
         return super(ApplyJobView, self).form_valid(form)
 
 
