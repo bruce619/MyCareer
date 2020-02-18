@@ -1,92 +1,80 @@
-from django.shortcuts import HttpResponseRedirect
+from django.shortcuts import HttpResponseRedirect, get_object_or_404, render, redirect
 from django.urls import reverse_lazy
-from ..forms import ApplyJobForm
-from ..models import Applicants, Job
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
+from ..forms import ApplyJobForm, ApplyFormset
+from ..models import Applicants, Job, Certification
+from django.contrib.auth.mixins import LoginRequiredMixin
 import sweetify
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView
 from django.template.loader import get_template
-from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 
-# Apply For a Job
-class ApplyJobView(CreateView):
-    model = Applicants
-    form_class = ApplyJobForm
-    slug_field = 'job_id'
-    slug_url_kwarg = 'job_id'
-    success_url = reverse_lazy('successful-apply')
+@login_required(login_url=reverse_lazy('login'))
+def job_apply(request, job_id=None):
+    template_name = 'apply_form.html'
+    applyform = ApplyJobForm(request.GET or None)
+    job = Job.objects.get(id=job_id)
+    formset = ApplyFormset(queryset=Certification.objects.none())
+    if request.method == 'GET':
+        context = {'applyform': applyform, 'formset': formset}
+        return render(request, template_name, context)
+    elif request.method == 'POST':
+        applyform = ApplyJobForm(request.POST, request.FILES)
+        formset = ApplyFormset(request.POST, request.FILES)
+        if applyform.is_valid() and formset.is_valid():
+            applyform.instance.user = request.user
+            apply = applyform.save(commit=False)
+            apply.job = job
+            apply.save()
+            for form in formset:
+                # so that `apply` instance can be attached.
+                certification = form.save(commit=False)
+                certification.user = request.user
+                certification.applicant = apply
+                certification.save()
+            fullname = request.user.get_full_name()
+            hr_email = (User.objects.filter(groups__name='Human Resources').values_list('email', flat=True))
+            applicants_email = (User.objects.filter(groups__name='Applicants').values_list('email', flat=True))
+            for h_mail in hr_email:
+                h_email = EmailMultiAlternatives(
+                    subject="New applicant form submission",
+                    from_email='CAREERS N.U.E OFFSHORE' + '',
+                    to=[h_mail],
+                )
+                context = {
+                    'fullname': fullname,
+                    'job': job,
+                }
+                html_template = get_template("applicants_template.html").render(context)
+                h_email.attach_alternative(html_template, "text/html")
+                h_email.send()
+            for a_mail in applicants_email:
+                email = EmailMultiAlternatives(
+                    subject="Application successful",
+                    from_email='CAREERS N.U.E OFFSHORE' + '',
+                    to=[a_mail],
+                )
+                context = {
+                    'job': job,
+                }
+                html_template = get_template("application_successful.html").render(context)
+                email.attach_alternative(html_template, "text/html")
+                email.send()
+            return redirect('successful-apply')
 
-    @method_decorator(login_required(login_url=reverse_lazy('login')))
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(self.request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        form = self.get_form()
-        if form.is_valid():
-            sweetify.success(self.request, title='Successfully Applied', text='You have successfully applied for this role', icon='success', button='Close', timer=3000)
-            return self.form_valid(form)
-        else:
-            sweetify.error(self.request, title='Error', text='Application unsuccessful. Kindly re-apply with correct details, ensure the date format is properly entered', icon='error', button='Close', timer=5000)
-            return HttpResponseRedirect(reverse_lazy('job-detail', kwargs={'id': self.kwargs['job_id']}))
-
-    def human_resources_mail(self):
-        fullname = self.request.user.get_full_name()
-        job = Job.objects.get(id=self.kwargs['job_id'])
-        hr_email = (User.objects.filter(groups__name='Human Resources').values_list('email', flat=True))
-        for h_mail in hr_email:
-            email = EmailMultiAlternatives(
-                subject="New applicant form submission",
-                from_email='CAREERS N.U.E OFFSHORE' + '',
-                to=[h_mail],
-            )
-            context = {
-                'fullname': fullname,
-                'job': job,
-            }
-            html_template = get_template("applicants_template.html").render(context)
-            email.attach_alternative(html_template, "text/html")
-            email.send()
-            break
-
-    def applicant_mail(self):
-        job = Job.objects.get(id=self.kwargs['job_id'])
-        applicants_email = (User.objects.filter(groups__name='Applicants').values_list('email', flat=True))
-        for a_mail in applicants_email:
-            email = EmailMultiAlternatives(
-                subject="Application successful",
-                from_email='CAREERS N.U.E OFFSHORE' + '',
-                to=[a_mail],
-            )
-            context = {
-                'job': job,
-            }
-            html_template = get_template("application_successful.html").render(context)
-            email.attach_alternative(html_template, "text/html")
-            email.send()
-            break
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        form.save()
-        self.human_resources_mail()
-        self.applicant_mail()
-        return super(ApplyJobView, self).form_valid(form)
+    return render(request, template_name, {'applyform': applyform, 'formset': formset})
 
 
 # See All Jobs User Applied for
-class AppliedJobs(ListView):
+class AppliedJobs(ListView, LoginRequiredMixin):
     model = Applicants
     template_name = 'my_job_list.html'
     context_object_name = 'applications'
     ordering = ['-date']
     paginate_by = 3
-
-    @method_decorator(login_required(login_url=reverse_lazy('login')))
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(self.request, *args, **kwargs)
 
     def get_queryset(self):
         user = self.request.user

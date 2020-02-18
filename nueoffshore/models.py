@@ -38,7 +38,7 @@ class Job(models.Model):
     requirement = RichTextUploadingField()
     years_of_experience = models.IntegerField(blank=True, null=True)
     type = models.CharField(choices=JOB_TYPE, max_length=10)
-    last_date = models.DateTimeField()
+    end_date = models.DateTimeField()
     created_at = models.DateTimeField(default=timezone.now)
     date = models.DateTimeField(default=timezone.now)
     filled = models.BooleanField(default=False)
@@ -52,14 +52,22 @@ class Applicants(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='applicants')
     experience = models.IntegerField(blank=True, null=True)
     cv = models.FileField(upload_to=user_directory_path)
-    certification = models.FileField(upload_to=user_directory_path, blank=True)
-    start_date = models.DateField(null=True, blank=True)
-    end_date = models.DateField(null=True, blank=True)
     degree = models.CharField(choices=DEGREE_TYPE, blank=True, max_length=10)
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f'{self.user.get_full_name()} Applied'
+
+
+class Certification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    applicant = models.ForeignKey(Applicants, on_delete=models.CASCADE, related_name='applicant_certifications', null=True)
+    name = models.CharField(max_length=50)
+    certification = models.FileField(upload_to=user_directory_path, blank=True)
+
+    def __str__(self):
+        return f'{self.user.get_full_name(), self.name}  certificate'
+
 
 
 

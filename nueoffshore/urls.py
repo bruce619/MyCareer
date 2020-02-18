@@ -1,7 +1,7 @@
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from .views.employee import ApplyJobView, AppliedJobs
+from .views.employee import AppliedJobs, job_apply
 from .views.employer import DashboardView, EmployerCreateView, EmployerUpdateView,  JobDeleteView, ScreenCandidate, filled
 from .views.home import HomeView, SearchView, JobListView, JobDetailView
 from django.views.generic import TemplateView
@@ -21,7 +21,7 @@ urlpatterns = [
     ])),
     path('jobs/job-detail/<int:id>/', JobDetailView.as_view(), name='job-detail'),
     path('jobs/<int:pk>/delete/', JobDeleteView.as_view(), name='job-delete'),
-    path('apply-job/<int:job_id>', ApplyJobView.as_view(), name='apply-job'),
+    path('jobs/<int:job_id>/apply', job_apply, name='apply-job'),
     path('successful-apply/', TemplateView.as_view(template_name="success.html"), name="successful-apply"),
 
 

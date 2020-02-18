@@ -1,7 +1,7 @@
 from django.shortcuts import HttpResponseRedirect
 from django.urls import reverse_lazy
 from ..forms import CreateJobForm
-from ..models import Job, Applicants
+from ..models import Job, Applicants, Certification
 from ..filters import ApplicantFilter
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -12,7 +12,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from bootstrap_datepicker_plus import DateTimePickerInput
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
-from django.conf import settings
 from django.contrib.auth.models import User
 
 
@@ -102,19 +101,20 @@ class EmployerCreateView(LoginRequiredMixin, CreateView):
             sweetify.success(self.request, title='Successfully created job!', text='You have successfully created this job', icon='sucsess', button="OK", timer=3000)
             return self.form_valid(form)
         else:
+            sweetify.error(self.request, title='Error', text='Unsuccessful. Kindly try again', icon='error', button='Close', timer=5000)
             return self.form_invalid(form)
 
 
 # Update a Post
 class EmployerUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Job
-    fields = ['title', 'location', 'description', 'requirement', 'years_of_experience', 'type', 'filled', 'last_date']
-    template_name = 'job_form.html'
+    fields = ['title', 'location', 'description', 'requirement', 'years_of_experience', 'type', 'filled', 'end_date']
+    template_name = 'createjob.html'
     pk_url_kwarg = 'id'
 
     def get_form(self, **kwargs):
         form = super().get_form(**kwargs)
-        form.fields['last_date'].widget = DateTimePickerInput()
+        form.fields['end_date'].widget = DateTimePickerInput()
         return form
 
     def form_valid(self, form):

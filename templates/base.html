@@ -3,11 +3,11 @@
 <html lang="en-us">
 <head>
     <meta charset="UTF-8">
-    {% load bootstrap4 %}  {# import bootstrap4/bootstrap3 #}
-    {% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
-    {% block extrahead %}       {# Extra Resources Start #}
-    {{ form.media }}            {# Form required JS and CSS #}
-    {% endblock %}              {# Extra Resources End #}
+    {% load bootstrap4 %}                         {# import bootstrap4/bootstrap3 #}
+        {% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+        {% block extrahead %}                     {# Extra Resources Start #}
+        {{ form.media }}                          {# Form required JS and CSS #}
+    {% endblock %}                                {# Extra Resources End #}
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="google-site-verification" content="sZ8voqdjWBqUSDEf9n2FdpwgYVcgrLtgSF4eLlRSX0M" />
@@ -24,8 +24,6 @@
     <!--Customized css-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <!--===============================================================================================-->
-    <link rel="stylesheet" href="{% static 'css/job.css' %}">
-    <!--===============================================================================================-->
     <link rel="stylesheet" href="{% static 'css/checkbox.css' %}">
     <!--===============================================================================================-->
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
@@ -33,7 +31,8 @@
     <link rel="stylesheet" href="{% static 'css/animate.css' %}">
     <!--===============================================================================================-->
     <script type="text/javascript" src="{% static 'js/sweetalert2.all.min.js' %}"></script>
-
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="{% static 'css/job.css' %}">
 </head>
 <body>
 
@@ -56,7 +55,7 @@
 <!--==============================================================================================-->
 <script type="text/javascript" src="{% static 'js/carousel.js' %}"></script>
 <!--==============================================================================================-->
-<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+<script src="{% static 'js/jquery.formset.min.js' %}"></script>
 <!--==============================================================================================-->
 <script>
 /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
@@ -74,6 +73,7 @@ for (i = 0; i < dropdown.length; i++) {
   });
 }
 </script>
+{% block custom_js %}{% endblock %}
 {% load sweetify %}
 {% sweetify %}
 </body>

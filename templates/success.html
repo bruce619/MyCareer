@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Application Successful{% endblock %}
+{% load crispy_forms_tags %}
+
 
 {% block content %}
 {% include 'sidebar.html' %}
@@ -14,7 +16,6 @@
             <a class="btn btn-warning btn-sm" href="{% url 'my-applied-jobs' %}" role="button">View My Applied Jobs</a>
           </p>
         </div>
-
 
     </div>
 </div>

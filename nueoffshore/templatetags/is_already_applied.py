@@ -1,6 +1,6 @@
 from django import template
 
-from nueoffshore.models import Applicants
+from nueoffshore.models import Applicants, Certification
 from django.contrib.auth.models import Group
 
 register = template.Library()

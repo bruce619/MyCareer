@@ -49,18 +49,20 @@
                                   <p class="article-title"> <b style="color:black;">sex:</b> {{ applicant.user.profile.sex }}</p>
                                   <p class="article-title"> <b style="color:black;">Date Of Birth:</b> {{ applicant.user.profile.date_of_birth | date:"F d, Y" }}</p>
                                   <p class="article-title"> <b style="color:black;">Nationality:</b> {{ applicant.user.profile.Nationality }}</p>
-                                  <p class="article-title"> <b style="color:black;">Institution:</b> {{ applicant.user.profile.institution }}</p>
                                   <p class="article-title"> <b style="color:black;">Degree:</b> {{ applicant.degree }}</p>
-                                  <p class="article-title"> <b style="color:black;">Years of Experience:</b> {{ applicant.experience }}</p>
+                                  <p class="article-title"> <b style="color:black;">Years of Experience:</b>{{ applicant.experience }}</p>
                                   {% if applicant.cv %}
                                   <button class="button-download"><i class="fa fa-download"></i> <a target="_blank" href="{{ applicant.cv.url}}">Applicant CV:</a></button> CV for this role
                                   {% else %}
                                         <p class="article-title">This user hasn't uploaded their cv</p>
                                   {% endif %}
-                                  <br/><br/>
-                                  {% if applicant.certification %}
-                                       <button class="button-download"><i class="fa fa-download"></i> <a target="_blank" href="{{ applicant.certification.url}}">Certification:</a></button>
-                                       {{applicant.start_date }} - {{applicant.end_date }}
+                                  <br><br>
+                                  {% if applicant.applicant_certifications %}
+                                    {% for cert in applicant.applicant_certifications.all %}
+                                       <button class="button-download"><i class="fa fa-download"></i> <a target="_blank" href="{{ cert.certification }}">Certification:</a></button>
+                                        {{ cert.name }}
+                                        <br><br>
+                                    {% endfor %}
                                   {% else %}
                                         <p>This user hasn't uploaded their certification</p>
                                   {% endif %}

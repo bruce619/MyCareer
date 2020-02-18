@@ -1,17 +1,23 @@
 from django import forms
-from .models import Job, Applicants
+from .models import Job, Applicants, Certification
 from bootstrap_datepicker_plus import DateTimePickerInput
-import django_filters
+from django.forms import modelformset_factory
+
+DEGREE_TYPE = (
+    ('B.Sc', "Bachelor's Degree"),
+    ('M.Sc', "Master's Degree"),
+    ('PhD', "Doctorate Degree"),
+)
 
 
 class CreateJobForm(forms.ModelForm):
 
     class Meta:
         model = Job
-        fields = ('title', 'location', 'description', 'requirement', 'years_of_experience', 'type', 'last_date')
+        fields = ('title', 'location', 'description', 'requirement', 'years_of_experience', 'type', 'end_date')
         exclude = ('user', 'created_at', 'date', 'filled')
         widgets = {
-            'last_date': DateTimePickerInput(format='%Y-%m-%d %H:%M')
+            'end_date': DateTimePickerInput(format='%Y-%m-%d %H:%M')
         }
 
     def is_valid(self):
@@ -30,7 +36,51 @@ class CreateJobForm(forms.ModelForm):
 
 
 class ApplyJobForm(forms.ModelForm):
+
     class Meta:
         model = Applicants
-        fields = ('job', 'experience', 'degree', 'cv', 'certification', 'start_date', 'end_date')
+        fields = ('job', 'degree', 'experience', 'cv')
+        exclude = ('job',)
+        labels = {
+            'degree': 'Degree',
+            'experience': 'Experience',
+            'cv': 'CV',
+        }
+        widgets = {
+            'degree': forms.Select(attrs={
+                'class': 'form-control',
+            }
+            ),
+            'experience': forms.NumberInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+            'cv': forms.FileInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+        }
+
+
+ApplyFormset = modelformset_factory(
+    Certification,
+    fields=('name', 'certification'),
+    extra=1,
+    widgets={
+        'name': forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Certification name'
+            }
+        ),
+        'certification': forms.FileInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Upload certification'
+            }
+        )
+    }
+)
 
