@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'ckeditor',
     'ckeditor_uploader',
-    'bootstrap_modal_forms',
     'bootstrap_datepicker_plus',
     'bootstrap4',
     'storages',
