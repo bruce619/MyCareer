@@ -30,13 +30,13 @@ class Profile(models.Model):
         return f'{self.user.username} Profile'
 
     # Saves a users profile
-    def save(self, *args, **kwargs):
-        super(Profile, self).save(*args, **kwargs)
-
-        img = Image.open(self.image.name)
-
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.image.name)
+    # def save(self, *args, **kwargs):
+    #     super(Profile, self).save(*args, **kwargs)
+    #
+    #     img = Image.open(self.image.name)
+    #
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.name)
 
