@@ -38,7 +38,7 @@ jmespath==0.9.4
 kombu==4.6.7
 Markdown==3.1.1
 more-itertools==8.0.2
-Pillow==6.1.0
+Pillow==6.2.0
 psycopg2==2.8.4
 python-crontab==2.4.0
 python-dateutil==2.8.0
