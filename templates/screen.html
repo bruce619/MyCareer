@@ -31,7 +31,7 @@
             <div class="row">
                 {% for applicant in object_list %}
                     <div class="col-lg-6">
-                        <div class="box applicant">
+                        <div class="content-section col-md-9">
                             <h4>{{ applicant.user.get_full_name }}</h4>
                             <a href="tel:{{ applicant.user.phone_number }}" target="_top" data-toggle="modal" data-target="#contact-modal" class="btn btn-outline-white-secondary btn-sm">
                                 <i class="fa fa-envelope"></i>Contact: {{ applicant.user.profile.phone_number }}
@@ -44,8 +44,8 @@
                             </p>
                             <article class="media content-section">
                                <img class="img-circle article-img" src="{{ applicant.user.profile.image.url }}">
-                              <div class="media-body">
-                                  <h2 class="article-title">Applicant Details</h2>
+                              <div class="content-section col-md-9">
+                                  <h3 class="article-title">Applicant Details</h3>
                                   <p class="article-title"> <b style="color:black;">sex:</b> {{ applicant.user.profile.sex }}</p>
                                   <p class="article-title"> <b style="color:black;">Date Of Birth:</b> {{ applicant.user.profile.date_of_birth | date:"F d, Y" }}</p>
                                   <p class="article-title"> <b style="color:black;">Nationality:</b> {{ applicant.user.profile.Nationality }}</p>
@@ -59,7 +59,7 @@
                                   <br><br>
                                   {% if applicant.applicant_certifications %}
                                     {% for cert in applicant.applicant_certifications.all %}
-                                       <button class="button-download"><i class="fa fa-download"></i> <a target="_blank" href="{{ cert.certification }}">Certification:</a></button>
+                                       <button class="button-download"><i class="fa fa-download"></i> <a target="_blank" href="{{ cert.certification.url }}">Certification:</a></button>
                                         {{ cert.name }}
                                         <br><br>
                                     {% endfor %}
