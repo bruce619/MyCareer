@@ -2,14 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
-from django.core.validators import FileExtensionValidator
 from django.core.exceptions import ValidationError
-
-DEGREE_TYPE = (
-    ('B.Sc', "Bachelor's Degree"),
-    ('M.Sc', "Master's Degree"),
-    ('PhD', "Doctorate Degree"),
-)
 
 JOB_TYPE = (
     ('Full time', "Full time"),
@@ -24,6 +17,19 @@ country_state = (
     ('Abuja', 'FCT'),
     ('Delta', 'Delta State'),
     ('Enugu', 'Enugu State'),
+)
+
+DEGREE_TYPE = (
+    ('B.Sc', "Bachelor's Degree"),
+    ('M.Sc', "Master's Degree"),
+    ('PhD', "Doctorate Degree"),
+)
+
+CLASS_OF_DEGREE = (
+    ('First Class ', 'First Class'),
+    ('Second Class Upper', 'Second Class Upper'),
+    ('Second Class Lower', 'Second Class Lower'),
+    ('Others', 'Others'),
 )
 
 
@@ -63,6 +69,8 @@ class Applicants(models.Model):
     experience = models.IntegerField(blank=True, null=True)
     cv = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension])
     degree = models.CharField(choices=DEGREE_TYPE, blank=True, max_length=10)
+    class_of_degree = models.CharField(choices=CLASS_OF_DEGREE, blank=True, max_length=10)
+    age = models.IntegerField(choices=list(zip(range(18, 41), range(18, 41))), unique=True)
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

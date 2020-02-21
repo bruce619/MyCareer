@@ -7,7 +7,7 @@ class ApplicantFilter(django_filters.FilterSet):
 
     class Meta:
         model = Applicants
-        fields = ('experience', 'degree')
+        fields = ('experience', 'age', 'degree', 'class_of_degree')
 
 
 class SearchFilter(django_filters.FilterSet):

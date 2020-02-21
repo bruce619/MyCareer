@@ -39,19 +39,31 @@ class ApplyJobForm(forms.ModelForm):
 
     class Meta:
         model = Applicants
-        fields = ('job', 'degree', 'experience', 'cv')
+        fields = ('job', 'degree', 'class_of_degree', 'experience', 'age', 'cv')
         exclude = ('job',)
         labels = {
             'degree': 'Degree',
-            'experience': 'Experience',
+            'class_of_degree': 'Class Of Degree',
+            'experience': 'Years of Experience',
+            'age': 'Age',
             'cv': 'CV',
+
         }
         widgets = {
             'degree': forms.Select(attrs={
                 'class': 'form-control',
             }
             ),
+            'class_of_degree': forms.Select(attrs={
+                'class': 'form-control',
+            }
+            ),
             'experience': forms.NumberInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+            'age': forms.Select(
                 attrs={
                     'class': 'form-control',
                 }
