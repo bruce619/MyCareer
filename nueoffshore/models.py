@@ -26,9 +26,9 @@ DEGREE_TYPE = (
 )
 
 CLASS_OF_DEGREE = (
-    ('First Class ', 'First Class'),
-    ('Second Class Upper', 'Second Class Upper'),
-    ('Second Class Lower', 'Second Class Lower'),
+    ('1st ', 'First Class'),
+    ('2nd', 'Second Class Upper'),
+    ('2nd lower', 'Second Class Lower'),
     ('Others', 'Others'),
 )
 
