@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.core.validators import FileExtensionValidator
+from django.core.exceptions import ValidationError
 
 DEGREE_TYPE = (
     ('B.Sc', "Bachelor's Degree"),
@@ -23,6 +25,14 @@ country_state = (
     ('Delta', 'Delta State'),
     ('Enugu', 'Enugu State'),
 )
+
+
+def validate_file_extension(value):
+    import os
+    ext = os.path.splitext(value.name)[1]
+    valid_extensions = ['.pdf']
+    if not ext in valid_extensions:
+        raise ValidationError(u'File not supported! Upload pdf format only')
 
 
 def user_directory_path(instance, filename):
@@ -51,7 +61,7 @@ class Applicants(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='applicants')
     experience = models.IntegerField(blank=True, null=True)
-    cv = models.FileField(upload_to=user_directory_path)
+    cv = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension])
     degree = models.CharField(choices=DEGREE_TYPE, blank=True, max_length=10)
     created_at = models.DateTimeField(default=timezone.now)
 
@@ -63,7 +73,7 @@ class Certification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     applicant = models.ForeignKey(Applicants, on_delete=models.CASCADE, related_name='applicant_certifications', null=True)
     name = models.CharField(max_length=50)
-    certification = models.FileField(upload_to=user_directory_path, blank=True)
+    certification = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension], blank=True)
 
     def __str__(self):
         return f'{self.user.get_full_name(), self.name}  certificate'

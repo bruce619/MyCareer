@@ -97,7 +97,26 @@
 
                         <ul class="nav navbar-nav navbar-right">
                             {% if user.is_authenticated %}
-                            Welcome! {{ user.first_name }} {{ user.last_name }}
+                            <li>
+                               <button type="button" style="font-size: 70%;" class="btn btn-outline-danger">
+                                  <a href="{% url 'logout' %}" style="color:black;">
+                                      <i class="fa fa-user-times"></i> Logout
+                                  </a>
+                               </button>
+                            </li>
+                            {% else %}
+                             <li>
+                                  <button type="button" style="font-size: 70%;" class="btn btn-outline-primary">
+                                      <a href="{% url 'login' %}" style="color:black;">
+                                          <i class="fa fa-user"></i> Login
+                                      </a>
+                                  </button>
+                                  <button type="button" style="font-size: 70%;" class="btn btn-outline-secondary">
+                                      <a href="{% url 'signup' %}" style="color:black;">
+                                          <i class="fa fa-user-plus"></i> Sign Up
+                                      </a>
+                                  </button>
+                            </li>
                             {% endif %}
                         </ul>
 

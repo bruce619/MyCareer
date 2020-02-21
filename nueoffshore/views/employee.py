@@ -1,13 +1,12 @@
-from django.shortcuts import HttpResponseRedirect, get_object_or_404, render, redirect
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from ..forms import ApplyJobForm, ApplyFormset
 from ..models import Applicants, Job, Certification
 from django.contrib.auth.mixins import LoginRequiredMixin
 import sweetify
-from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, ListView
+from django.views.generic import ListView
 from django.template.loader import get_template
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, send_mail, send_mass_mail
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
@@ -63,6 +62,7 @@ def job_apply(request, job_id=None):
                 html_template = get_template("application_successful.html").render(context)
                 email.attach_alternative(html_template, "text/html")
                 email.send()
+            sweetify.success(request, title='Successful Application', text=f'You have successfully applied for {job}', icon='success', button="OK", timer=3000)
             return redirect('successful-apply')
 
     return render(request, template_name, {'applyform': applyform, 'formset': formset})

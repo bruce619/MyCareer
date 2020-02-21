@@ -82,31 +82,35 @@
             <section>
                 <div class="container">
                     <h4 class="heading">Latest Jobs</h4>
-                    {% for trending in trendings %}
-                        <div class="job-listing  job-listing--last">
-                            <div class="row">
-                                <div class="col-md-12 col-lg-6">
-                                    <div class="row">
-                                        <div class="col-2">
-                                            <img src="{{ trending.user.profile.image.url }}"
-                                                 alt="ShareBoardd " class="img-fluid">
-                                        </div>
-                                        <div class="col-10">
-                                            <h4 class="job__title">
-                                                <a href="{% url 'job-detail' trending.id %}">{{ trending.title }}</a>
-                                            </h4>
+                    {% if trendings %}
+                        {% for trending in trendings %}
+                            <div class="job-listing  job-listing--last">
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-6">
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <img src="{{ trending.user.profile.image.url }}"
+                                                     alt="ShareBoardd " class="img-fluid">
+                                            </div>
+                                            <div class="col-10">
+                                                <h4 class="job__title">
+                                                    <a href="{% url 'job-detail' trending.id %}">{{ trending.title }}</a>
+                                                </h4>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-10 col-md-3 col-lg-2 ml-auto"><i class="fa fa-map-marker job__location"></i>
-                                    {{ trending.location }}
-                                </div>
-                                <div class="col-10 col-md-3 col-lg-3 ml-auto">
-                                    <p>Posted {{ trending.created_at|timesince }}</p>
+                                    <div class="col-10 col-md-3 col-lg-2 ml-auto"><i class="fa fa-map-marker job__location"></i>
+                                        {{ trending.location }}
+                                    </div>
+                                    <div class="col-10 col-md-3 col-lg-3 ml-auto">
+                                        <p>Posted {{ trending.created_at|timesince }}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        <h5 class="heading">No new job available</h5>
+                    {% endif %}
                 </div>
             </section>
             <section style="background-image: url({% static 'img/startup.jpg' %}); " class="section-divider">
