@@ -48,8 +48,10 @@
                                   <h3 class="article-title">Applicant Details</h3>
                                   <p class="article-title"> <b style="color:black;">sex:</b> {{ applicant.user.profile.sex }}</p>
                                   <p class="article-title"> <b style="color:black;">Date Of Birth:</b> {{ applicant.user.profile.date_of_birth | date:"F d, Y" }}</p>
+                                  <p class="article-title"> <b style="color:black;">Age:</b> {{ applicant.age }}</p>
                                   <p class="article-title"> <b style="color:black;">Nationality:</b> {{ applicant.user.profile.Nationality }}</p>
                                   <p class="article-title"> <b style="color:black;">Degree:</b> {{ applicant.degree }}</p>
+                                  <p class="article-title"> <b style="color:black;">Class of Degree:</b> {{ applicant.class_of_degree }}</p>
                                   <p class="article-title"> <b style="color:black;">Years of Experience:</b>{{ applicant.experience }}</p>
                                   {% if applicant.cv %}
                                   <button class="button-download"><i class="fa fa-download"></i> <a target="_blank" href="{{ applicant.cv.url}}">Applicant CV:</a></button> CV for this role
