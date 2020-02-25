@@ -87,13 +87,13 @@ ApplyFormset = modelformset_factory(
         'name': forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Certification name'
+                'placeholder': 'Document name'
             }
         ),
         'certification': forms.FileInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Upload certification'
+                'placeholder': 'Upload Document'
             }
         )
     }

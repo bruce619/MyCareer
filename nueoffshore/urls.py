@@ -23,7 +23,8 @@ urlpatterns = [
     path('jobs/<int:pk>/delete/', JobDeleteView.as_view(), name='job-delete'),
     path('jobs/<int:job_id>/apply', job_apply, name='apply-job'),
     path('successful-apply/', TemplateView.as_view(template_name="success.html"), name="successful-apply"),
-
+    path('job-tips/', TemplateView.as_view(template_name="job_tips.html"), name="job-tips"),
+    path('job-benefits/', TemplateView.as_view(template_name="benefits.html"), name="job-benefits"),
 
 ]
 
