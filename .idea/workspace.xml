@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8d0c2bf-5fc4-48d9-8d5c-d84c792bb0a8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/benefits.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/job_tips.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nueoffshore/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/nueoffshore/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nueoffshore/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/nueoffshore/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/apply_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/apply_form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mycareer/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/mycareer/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/sidebar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sidebar.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

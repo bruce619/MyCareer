@@ -42,7 +42,7 @@
                 </li>
                 <li>
                     <a href="{% url 'search' %}" style="color:black;">
-                        <i class="fas fa-search"></i>Search Job
+                        <i class="fas fa-search"></i>Search
                     </a>
                 </li>
                 <li>
@@ -66,7 +66,7 @@
                 </li>
                 <li>
                     <a href="{% url 'search' %}" style="color:black;">
-                        <i class="fas fa-search"></i>Search Job
+                        <i class="fas fa-search"></i>Search
                     </a>
                 </li>
                 <li>
@@ -99,6 +99,9 @@
                             {% if user.is_authenticated %}
                             <li>
                                 {{ user.username }}
+                                <a href="{% url 'search' %}" style="color:black;">
+                                    <i class="fas fa-search"></i>
+                                </a>
                                <button type="button" style="font-size: 70%;" class="btn btn-outline-danger">
                                   <a href="{% url 'logout' %}" style="color:black;">
                                       <i class="fa fa-user-times"></i> Logout
@@ -107,6 +110,9 @@
                             </li>
                             {% else %}
                              <li>
+                                 <a href="{% url 'search' %}" style="color:black;">
+                                    <i class="fas fa-search"></i>
+                                 </a>
                                   <button type="button" style="font-size: 70%;" class="btn btn-outline-primary">
                                       <a href="{% url 'login' %}" style="color:black;">
                                           <i class="fa fa-user"></i> Login
