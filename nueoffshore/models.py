@@ -20,9 +20,12 @@ country_state = (
 )
 
 DEGREE_TYPE = (
-    ('B.Sc', "Bachelor's Degree"),
-    ('M.Sc', "Master's Degree"),
     ('PhD', "Doctorate Degree"),
+    ('M.Sc', "Master's Degree"),
+    ('B.Sc', "Bachelor's Degree"),
+    ('HND', "HND"),
+    ('OND', "OND"),
+    ('Others', 'Others'),
 )
 
 CLASS_OF_DEGREE = (
@@ -84,7 +87,7 @@ class Certification(models.Model):
     certification = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension], blank=True)
 
     def __str__(self):
-        return f'{self.user.get_full_name(), self.name}  certificate'
+        return f'{self.user.get_full_name(), self.applicant.job, self.name}  certificate'
 
 
 

@@ -98,6 +98,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             {% if user.is_authenticated %}
                             <li>
+                                {{ user.username }}
                                <button type="button" style="font-size: 70%;" class="btn btn-outline-danger">
                                   <a href="{% url 'logout' %}" style="color:black;">
                                       <i class="fa fa-user-times"></i> Logout
