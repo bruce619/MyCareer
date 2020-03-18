@@ -36,8 +36,8 @@ class Profile(models.Model):
 
         img = Image.open(self.image)
 
-        if img.height > 30 or img.width > 30:
-            output_size = (30, 30)
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
             img.thumbnail(output_size, Image.ANTIALIAS)
             fh = storage.open(self.image.name, "w")
             ext = 'jpeg'
