@@ -40,7 +40,8 @@ class Profile(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size, Image.ANTIALIAS)
             fh = storage.open(self.image.name, "w")
-            format = 'jpg'
+            ext = 'jpeg'
+            format = 'JPEG' if ext.lower() == 'jpg' else ext.upper()
             img.save(fh, format)
             fh.close()
 
