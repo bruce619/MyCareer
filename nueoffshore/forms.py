@@ -40,6 +40,16 @@ class CreateJobForm(forms.ModelForm):
 
 class ApplyJobForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        # first call parent's constructor
+        super(ApplyJobForm, self).__init__(*args, **kwargs)
+        # there's a `fields` property now
+        self.fields['degree'].required = True
+        self.fields['class_of_degree'].required = True
+        self.fields['experience'].required = True
+        self.fields['age'].required = True
+        self.fields['cv'].required = True
+
     class Meta:
         model = Applicants
         fields = ('job', 'degree', 'class_of_degree', 'experience', 'age', 'cv')
