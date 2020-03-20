@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from PIL import Image
-from django.core.files.storage import default_storage as storage
+from PIL import Image as Img
+from io import StringIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
 # Choice Selection for Users Gender
@@ -30,6 +31,17 @@ class Profile(models.Model):
         #  Return the username on the database "e.g Dean Profile"
         return f'{self.user.username} Profile'
 
+    def save(self, *args, **kwargs):
+        if self.photo:
+            image = Img.open(StringIO.StringIO(self.photo.read()))
+            image.thumbnail((200, 200), Img.ANTIALIAS)
+            output = StringIO.StringIO()
+            image.save(output, format='JPEG', quality=75)
+            output.seek(0)
+            self.photo = InMemoryUploadedFile(output, 'ImageField', "%s.jpg" % self.photo.name, 'image/jpeg',
+                                              output.len, None)
+        super(Profile, self).save(*args, **kwargs)
+
     # Saves a users profile
     # def save(self, *args, **kwargs):
     #     super(Profile, self).save(*args, **kwargs)
@@ -45,13 +57,13 @@ class Profile(models.Model):
     #         img.save(fh, format)
     #         fh.close()
 
-    def save(self, *args, **kwargs):
-        super(Profile, self).save(*args, **kwargs)
-
-        img = Image.open(self.image)
-
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
+    # def save(self, *args, **kwargs):
+    #     super(Profile, self).save(*args, **kwargs)
+    #
+    #     img = Image.open(self.image)
+    #
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path)
 
