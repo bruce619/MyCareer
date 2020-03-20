@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
 from io import BytesIO
-from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.files.storage import default_storage as storage
 import sys
 
 
@@ -35,11 +35,11 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         image_temporary = Image.open(self.image)
         output_io_stream = BytesIO()
-        image_temporary_resized = image_temporary.resize((300, 300))
+        image_temporary_resized = image_temporary.resize(300, 300)
         image_temporary_resized.save(output_io_stream, format='JPEG', quality=75)
         output_io_stream.seek(0)
-        self.image = InMemoryUploadedFile(output_io_stream, 'ImageField', "%s.jpg" % self.image.name.split('.')[0], 'image/jpeg',
-                                          sys.getsizeof(output_io_stream), None)
+        self.image = storage(output_io_stream, 'ImageField', "%s.jpg" % self.image.name.split('.')[0], 'image/jpeg',
+                             sys.getsizeof(output_io_stream), None)
         super(Profile, self).save(*args, **kwargs)
 
     # Saves a users profile
