@@ -1,9 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
-from io import BytesIO
 from django.core.files.storage import default_storage as storage
-import sys
 
 
 # Choice Selection for Users Gender
@@ -32,30 +30,20 @@ class Profile(models.Model):
         #  Return the username on the database "e.g Dean Profile"
         return f'{self.user.username} Profile'
 
+    # Saves a users profile
     def save(self, *args, **kwargs):
-        image_temporary = Image.open(self.image)
-        output_io_stream = BytesIO()
-        image_temporary_resized = image_temporary.resize(300, 300)
-        image_temporary_resized.save(output_io_stream, format='JPEG', quality=75)
-        output_io_stream.seek(0)
-        self.image = storage(output_io_stream, 'ImageField', "%s.jpg" % self.image.name.split('.')[0], 'image/jpeg',
-                             sys.getsizeof(output_io_stream), None)
         super(Profile, self).save(*args, **kwargs)
 
-    # Saves a users profile
-    # def save(self, *args, **kwargs):
-    #     super(Profile, self).save(*args, **kwargs)
-    #
-    #     img = Image.open(self.image)
-    #
-    #     if img.height > 300 or img.width > 300:
-    #         output_size = (300, 300)
-    #         img.thumbnail(output_size, Image.ANTIALIAS)
-    #         fh = storage.open(self.image.name, "w")
-    #         ext = 'jpeg'
-    #         format = 'JPEG' if ext.lower() == 'jpg' else ext.upper()
-    #         img.save(fh, format)
-    #         fh.close()
+        img = Image.open(self.image)
+
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size, Image.ANTIALIAS)
+            fh = storage.open(self.image.name, "w")
+            ext = 'jpeg'
+            format = 'JPEG' if ext.lower() == 'jpg' else ext.upper()
+            img.save(fh, format)
+            fh.close()
 
     # def save(self, *args, **kwargs):
     #     super(Profile, self).save(*args, **kwargs)
