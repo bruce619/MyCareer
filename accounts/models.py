@@ -35,8 +35,8 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         image_temporary = Image.open(self.image)
         output_io_stream = BytesIO()
-        image_temporary_resized = image_temporary.resize((900, 300))
-        image_temporary_resized.save(output_io_stream, format='JPEG', quality=150)
+        image_temporary_resized = image_temporary.resize((300, 300))
+        image_temporary_resized.save(output_io_stream, format='JPEG', quality=75)
         output_io_stream.seek(0)
         self.image = InMemoryUploadedFile(output_io_stream, 'ImageField', "%s.jpg" % self.image.name.split('.')[0], 'image/jpeg',
                                           sys.getsizeof(output_io_stream), None)
