@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
-from PIL import Image as Img
-from io import StringIO
+from PIL import Image
+from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
+import sys
 
 
 # Choice Selection for Users Gender
@@ -32,14 +33,13 @@ class Profile(models.Model):
         return f'{self.user.username} Profile'
 
     def save(self, *args, **kwargs):
-        if self.photo:
-            image = Img.open(StringIO.StringIO(self.photo.read()))
-            image.thumbnail((200, 200), Img.ANTIALIAS)
-            output = StringIO.StringIO()
-            image.save(output, format='JPEG', quality=75)
-            output.seek(0)
-            self.photo = InMemoryUploadedFile(output, 'ImageField', "%s.jpg" % self.photo.name, 'image/jpeg',
-                                              output.len, None)
+        image_temporary = Image.open(self.image)
+        output_io_stream = BytesIO()
+        image_temporary_resized = image_temporary.resize((900, 300))
+        image_temporary_resized.save(output_io_stream, format='JPEG', quality=150)
+        output_io_stream.seek(0)
+        self.image = InMemoryUploadedFile(output_io_stream, 'ImageField', "%s.jpg" % self.image.name.split('.')[0], 'image/jpeg',
+                                          sys.getsizeof(output_io_stream), None)
         super(Profile, self).save(*args, **kwargs)
 
     # Saves a users profile
