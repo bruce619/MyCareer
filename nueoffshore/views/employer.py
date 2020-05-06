@@ -64,7 +64,17 @@ def filled(request, job_id=None):
     # Mark as filled
     job.filled = True
     job.save()
-    return HttpResponseRedirect(reverse_lazy('job-listing'))
+    return HttpResponseRedirect(reverse_lazy('employer-dashboard'))
+
+
+@login_required(login_url=reverse_lazy('login'))
+def unfilled(request, job_id=None):
+    # Gets the the job posted by the logged in user(Admin/HR/Staff)
+    job = Job.objects.get(user_id=request.user.id, id=job_id)
+    # Mark as filled
+    job.filled = False
+    job.save()
+    return HttpResponseRedirect(reverse_lazy('employer-dashboard'))
 
 
 class EmployerCreateView(LoginRequiredMixin, CreateView):

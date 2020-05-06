@@ -52,17 +52,20 @@
                                     </td>
                                     <td>
                                         {% if job.filled %}
-                                            <a href="{% url 'job-mark-filled' job.id %}"
+                                            <a href="{% url 'job-unmark-filled' job.id %}"
                                                class="btn btn-outline-white-secondary">
                                                 <i class="	fa fa-check-circle"></i>
-                                                <span class="hidden-xs hidden-sm">Filled</span>
+                                                <span class="hidden-xs hidden-sm">Re-open</span>Job
                                             </a><br>
                                         {% else %}
                                             <a href="{% url 'job-mark-filled' job.id %}" class="btn btn-outline-white-secondary">
                                                 <i class="	fa fa-check"></i>
-                                                <span class="hidden-xs hidden-sm">Mark as </span>filled
+                                                <span class="hidden-xs hidden-sm">Mark as</span>filled
                                             </a><br>
                                         {% endif %}
+                                        <a href="{% url 'job-update' job.id %}" class="btn btn-outline-white-secondary">
+                                            <i class="fa fa-edit"></i> Edit
+                                        </a>
                                         <a href="{% url 'job-delete' job.id %}" class="btn btn-outline-white-secondary">
                                             <i class="fa fa-trash"></i>Delete
                                         </a>

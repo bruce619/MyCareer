@@ -2,7 +2,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from .views.employee import AppliedJobs, job_apply
-from .views.employer import DashboardView, EmployerCreateView, EmployerUpdateView,  JobDeleteView, ScreenCandidate, filled
+from .views.employer import DashboardView, EmployerCreateView, EmployerUpdateView,  JobDeleteView, ScreenCandidate, filled, unfilled
 from .views.home import HomeView, SearchView, JobListView, JobDetailView
 from django.views.generic import TemplateView
 
@@ -18,6 +18,7 @@ urlpatterns = [
         path('', DashboardView.as_view(), name='employer-dashboard'),
         path('screen/<int:job_id>', ScreenCandidate.as_view(), name='employer-dashboard-screen'),
         path('mark-filled/<int:job_id>', filled, name='job-mark-filled'),
+        path('unmark-filled/<int:job_id>', unfilled, name='job-unmark-filled'),
     ])),
     path('jobs/job-detail/<int:id>/', JobDetailView.as_view(), name='job-detail'),
     path('jobs/<int:pk>/delete/', JobDeleteView.as_view(), name='job-delete'),

@@ -73,7 +73,7 @@ class Applicants(models.Model):
     cv = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension])
     degree = models.CharField(choices=DEGREE_TYPE, blank=True, max_length=10)
     class_of_degree = models.CharField(choices=CLASS_OF_DEGREE, blank=True, max_length=10)
-    age = models.IntegerField(choices=list(zip(range(18, 41), range(18, 41))), unique=True)
+    age = models.IntegerField(choices=list(zip(range(18, 41), range(18, 41))))
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -83,11 +83,12 @@ class Applicants(models.Model):
 class Certification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     applicant = models.ForeignKey(Applicants, on_delete=models.CASCADE, related_name='applicant_certifications', null=True)
-    name = models.CharField(max_length=50)
-    certification = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension], blank=True)
+    name = models.CharField(max_length=100)
+    certification = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension], default='default.pdf')
 
     def __str__(self):
         return f'{self.user.get_full_name(), self.applicant.job, self.name}  certificate'
+
 
 
 
