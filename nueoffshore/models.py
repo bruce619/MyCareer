@@ -83,8 +83,13 @@ class Applicants(models.Model):
 class Certification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     applicant = models.ForeignKey(Applicants, on_delete=models.CASCADE, related_name='applicant_certifications', null=True)
+<<<<<<< HEAD
     name = models.CharField(max_length=100)
     certification = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension], default='default.pdf')
+=======
+    name = models.CharField(max_length=50, blank=True, null=True)
+    certification = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension], blank=True, null=True, default='no_certificate.pdf')
+>>>>>>> 6e4227fc5076f65fa6d0c4dc3e3c6e7b1ec310a4
 
     def __str__(self):
         return f'{self.user.get_full_name(), self.applicant.job, self.name}  certificate'

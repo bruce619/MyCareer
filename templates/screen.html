@@ -59,7 +59,7 @@
                                         <p class="article-title">This user hasn't uploaded their cv</p>
                                   {% endif %}
                                   <br><br>
-                                  {% if applicant.applicant_certifications %}
+                                  {% if applicant.applicant_certifications  %}
                                     {% for cert in applicant.applicant_certifications.all %}
                                        <button class="button-download"><i class="fa fa-download"></i> <a target="_blank" href="{{ cert.certification.url }}">Certification:</a></button>
                                         {{ cert.name }}

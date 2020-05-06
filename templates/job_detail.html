@@ -34,7 +34,6 @@
         <div class="row">
           <div class="col-lg-8">
             <div class="mb-5">
-              <figure class="mb-5"><img src="{% static 'img/job_single_img_1.jpg' %}" alt="Free Website Template by Free-Template.co" class="img-fluid rounded"></figure>
               <h3 class="h5 d-flex align-items-center mb-4 text-primary"><i class="fa fa-bars"></i>Job Description</h3>
               <p>{{ object.description | safe }}</p>
             </div>
@@ -85,8 +84,8 @@
 
           {% if object.user == user %}
             <div>
-            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'job-delete' job.id %}">DELETE</a>
-            <a class="btn btn-warning btn-sm mt-1 mb-1" href="{% url 'job-update' job.id %}">EDIT JOB DETAILS</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'job-delete' object.id %}">DELETE</a>
+            <a class="btn btn-warning btn-sm mt-1 mb-1" href="{% url 'job-update' object.id %}">EDIT JOB DETAILS</a>
             </div>
           {% endif %}
         </div>

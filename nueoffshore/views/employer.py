@@ -80,7 +80,7 @@ def unfilled(request, job_id=None):
 class EmployerCreateView(LoginRequiredMixin, CreateView):
     model = Job
     form_class = CreateJobForm
-    template_name = 'createjob.html'
+    template_name = 'job_form.html'
     success_url = reverse_lazy('job-listing')
 
     def get_context_data(self, **kwargs):
@@ -108,7 +108,7 @@ class EmployerCreateView(LoginRequiredMixin, CreateView):
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
-            sweetify.success(self.request, title='Successfully created job!', text='You have successfully created this job', icon='sucsess', button="OK", timer=3000)
+            sweetify.success(self.request, title='Successfully created job!', text='You have successfully created this job', icon='success', button="OK", timer=3000)
             return self.form_valid(form)
         else:
             sweetify.error(self.request, title='Error', text='Unsuccessful. Kindly try again', icon='error', button='Close', timer=5000)
@@ -119,8 +119,14 @@ class EmployerCreateView(LoginRequiredMixin, CreateView):
 class EmployerUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Job
     fields = ['title', 'location', 'description', 'requirement', 'years_of_experience', 'type', 'filled', 'end_date']
-    template_name = 'createjob.html'
+    template_name = 'job_form.html'
     pk_url_kwarg = 'id'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Get the group name and pass it as a variable into the template
+        context['in_group'] = self.request.user.groups.filter(name='Human Resources').exists()
+        return context
 
     def get_form(self, **kwargs):
         form = super().get_form(**kwargs)
