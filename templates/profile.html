@@ -8,7 +8,7 @@
 {% include 'sidebar.html' %}
             <div class="content-section">
                  <div class="media">
-                    <img class="img-circle" src="{{ user.profile.image.url }}">
+                    <img class="img-circle" src="{{ user.profile.image.url }}" width="200" height="200">
                 </div>
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
