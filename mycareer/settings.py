@@ -25,11 +25,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-<<<<<<< HEAD
 
 # DEBUG = True
-=======
->>>>>>> 6e4227fc5076f65fa6d0c4dc3e3c6e7b1ec310a4
 DEBUG = False
 
 # 'mydjangocareerapp.herokuapp.com'
@@ -272,13 +269,9 @@ DEFAULT_FILE_STORAGE = 'mycareer.storage_backends.MediaStorage'
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 
-<<<<<<< HEAD
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
-=======
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
->>>>>>> 6e4227fc5076f65fa6d0c4dc3e3c6e7b1ec310a4
 
 django_heroku.settings(locals())
 
