@@ -3,6 +3,8 @@ from django.utils import timezone
 from accounts.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.core.exceptions import ValidationError
+from django.conf import settings
+
 
 JOB_TYPE = (
     ('Full time', "Full time"),
@@ -90,8 +92,20 @@ class Certification(models.Model):
         return "{} {} {} Certificate".format(self.user.first_name, self.user.last_name, self.name)
 
 
+class MessageStatus(models.Model):
+    name = models.CharField(max_length=15)
+
+    def __str__(self):
+        return self.name
 
 
+class Notification(models.Model):
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sender')
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='receiver')
+    job = models.ForeignKey(Job, verbose_name="Job id", on_delete=models.CASCADE)
+    message = models.TextField(max_length=None)
+    messagestatus = models.ForeignKey(MessageStatus, on_delete=models.CASCADE)
+    dateTimeCreated = models.DateTimeField(verbose_name='sent_date', auto_now_add=True)
 
-
-
+    def __str__(self):
+        return str(self.sender) + " to " + str(self.receiver)

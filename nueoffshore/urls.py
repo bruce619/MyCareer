@@ -3,7 +3,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .views.employee import AppliedJobs, job_apply
 from .views.employer import DashboardView, EmployerCreateView, EmployerUpdateView,  JobDeleteView, ScreenCandidate, filled, unfilled
-from .views.home import HomeView, SearchView, JobListView, JobDetailView
+from .views.home import HomeView, SearchView, JobListView, JobDetailView, NotificationView, send_notification, reply_message,\
+    mark_as_read, DeleteMessage
 from django.views.generic import TemplateView
 
 
@@ -23,6 +24,11 @@ urlpatterns = [
         path('unmark-filled/<int:job_id>', unfilled, name='job-unmark-filled'),
     ])),
     path('jobs/<int:job_id>/apply', job_apply, name='apply-job'),
+    path('send-notification/<int:id>/', send_notification, name='send-notification'),
+    path('reply-notification/<int:id>/', reply_message, name='reply-notification'),
+    path('notifications/', NotificationView.as_view(), name='notifications'),
+    path('mark-as-read/<int:id>/', mark_as_read, name='mark-as-read'),
+    path('delete-message/<int:pk>', DeleteMessage.as_view(), name='delete-message'),
     path('successful-apply/', TemplateView.as_view(template_name="success.html"), name="successful-apply"),
     path('job-tips/', TemplateView.as_view(template_name="job_tips.html"), name="job-tips"),
     path('job-benefits/', TemplateView.as_view(template_name="benefits.html"), name="job-benefits"),

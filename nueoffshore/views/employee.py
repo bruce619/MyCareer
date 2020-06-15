@@ -9,8 +9,7 @@ from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives, BadHeaderError
 from accounts.models import User
 from django.contrib.auth.decorators import login_required
-from accounts.decorators import user_is_applicant
-from django.utils.decorators import method_decorator
+
 
 
 @login_required(login_url=reverse_lazy('login'))

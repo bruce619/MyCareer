@@ -1,5 +1,5 @@
 from django import forms
-from .models import Job, Applicants, Certification
+from .models import Job, Applicants, Certification, Notification
 from bootstrap_datepicker_plus import DateTimePickerInput
 from django.forms import modelformset_factory
 
@@ -109,3 +109,22 @@ ApplyFormset = modelformset_factory(
     }
 )
 
+
+class NotificationForm(forms.ModelForm):
+    message = forms.CharField(widget=forms.Textarea(attrs={
+        'rows': 4
+    }))
+
+    def __init__(self, *args, **kwargs):
+        super(NotificationForm, self).__init__(*args, **kwargs)
+
+        self.fields['message'].widget.attrs.update(
+            {
+                'placeholder': 'Your Message',
+            }
+        )
+
+    class Meta:
+        model = Notification
+        fields = ('sender', 'receiver', 'job', 'message', 'message_sent', 'dateTimeCreated',)
+        exclude = ('sender', 'receiver', 'job', 'message_sent', 'dateTimeCreated',)
