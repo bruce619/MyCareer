@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
+from accounts.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.core.exceptions import ValidationError
 
@@ -77,7 +77,7 @@ class Applicants(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f'{self.user.get_full_name()} Applied'
+        return "{} {} Applied".format(self.user.first_name, self.user.last_name)
 
 
 class Certification(models.Model):
@@ -87,7 +87,7 @@ class Certification(models.Model):
     certification = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension], default='default.pdf')
 
     def __str__(self):
-        return f'{self.user.get_full_name(), self.applicant.job, self.name}  certificate'
+        return "{} {} {} Certificate".format(self.user.first_name, self.user.last_name, self.name)
 
 
 

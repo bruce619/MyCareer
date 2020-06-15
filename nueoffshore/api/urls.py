@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from .views import *
 
 router = DefaultRouter()
-router.register('jobs/job-listing/', JobViewSet, base_name='job-listing')
+router.register('jobs/job-listing/', JobViewSet, basename='job-listing')
 
 urlpatterns = [
     path('search/', SearchApiView.as_view()),

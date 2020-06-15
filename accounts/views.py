@@ -1,49 +1,49 @@
 from django.shortcuts import render, redirect, reverse
 from django.urls import reverse_lazy
-from django.contrib import messages
+from django.views.generic import CreateView, UpdateView, FormView, RedirectView
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, AccountAuthenticationForm, UserUpdateForm, ProfileUpdateForm
-from django.contrib.auth.models import User, Group
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth import login, authenticate, logout
+from accounts.models import User
+from django.contrib import messages, auth
+from django.contrib.auth import login, authenticate
 import urllib.parse
 import sweetify
 
 
-def register(request):
-    form = UserRegisterForm
-    # Check if the form is a get method
-    if request.method == "GET":
-        context = {'form': form}
-        return render(request, 'signup.html', context)
-    # If this is a POST request then process the Form data
-    elif request.method == 'POST':
-        # Create a form instance and populate it with data from the request (binding):
-        form = UserRegisterForm(request.POST)
-        # Check if Form is valid
+class RegisterView(CreateView):
+    model = User
+    form_class = UserRegisterForm
+    template_name = 'signup.html'
+    success_url = reverse_lazy('home')
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(self.request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+
+        form = self.form_class(data=request.POST)
+
         if form.is_valid():
-            getFormData = request.POST.copy()
-            # Get the Users Username and Password and save it
-            username = getFormData.get('username')
-            newUser = form.save(commit=False)
-            newUser.password = make_password(request.POST.get('password'))
-            newRegisteredUser = form.save()
-            # Register any new user as an Applicant
-            my_group = Group.objects.get(name='Applicants')
-            my_group.user_set.add(newRegisteredUser.id)
-            user = User.objects.get(username=username)
-            # Success message after submission
+            user = form.save(commit=False)
+            password = form.cleaned_data.get("password1")
+            user.set_password(password)
+            user.save()
             sweetify.success(request, title='Account Created', text='Your account has been created, log in and complete your profile', icon='success', button='Ok', timer=3000)
             return redirect('login')
-    else:
-        # If this is a GET (or any other method) create the default form.
-        form = UserRegisterForm()
-    return render(request, 'signup.html', {'form': form})
+        else:
+            return render(request, 'signup.html', {'form': form})
 
 
-def logout_view(request):
-    logout(request)
-    return redirect('/')
+class LogoutView(RedirectView):
+    """
+    Provides users the ability to logout
+    """
+    url = '/login'
+
+    def get(self, request, *args, **kwargs):
+        auth.logout(request)
+        messages.success(request, 'You are now logged out')
+        return super(LogoutView, self).get(request, *args, **kwargs)
 
 
 def login_view(request):
@@ -60,9 +60,9 @@ def login_view(request):
     if request.method == 'POST':
         form = AccountAuthenticationForm(request.POST)
         if form.is_valid():
-            username = request.POST['username']
+            email = request.POST['email']
             password = request.POST['password']
-            user = authenticate(username=username, password=password)
+            user = authenticate(email=email, password=password)
 
             if user:
                 login(request, user)

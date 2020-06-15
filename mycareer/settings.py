@@ -29,9 +29,9 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # DEBUG = True
 DEBUG = False
 
-# 'mydjangocareerapp.herokuapp.com'
 
 ALLOWED_HOSTS = ['mydjangocareerapp.herokuapp.com']
+# ALLOWED_HOSTS = []
 
 PASSWORD_HASHERS = (
         'django.contrib.auth.hashers.PBKDF2PasswordHasher',
@@ -67,6 +67,8 @@ INSTALLED_APPS = [
     'nueoffshore',
     'accounts.apps.AccountsConfig',
 ]
+
+AUTH_USER_MODEL = "accounts.User"
 
 # possible options: 'sweetalert', 'sweetalert2' - default is 'sweetalert2'
 # sweetify
@@ -229,6 +231,8 @@ PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
 # The absolute path to the directory where collectstatic will collect static files for deployment.
 STATIC_ROOT = os.path.join(PROJECT_PATH, 'staticfiles')
 # The URL to use when referring to static files (where they will be served from)
+STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
     os.path.join(PROJECT_PATH, 'static')
 ]
@@ -261,7 +265,6 @@ AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', '')
 S3_USE_SIGV4 = os.environ.get('S3_USE_SIGV4')
 AWS_LOCATION = 'static'
-STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 DEFAULT_FILE_STORAGE = 'mycareer.storage_backends.MediaStorage'

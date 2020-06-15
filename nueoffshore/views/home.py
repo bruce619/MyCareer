@@ -1,7 +1,6 @@
 from ..models import Job
 from django.views.generic import ListView, DetailView
 from accounts.forms import ProfileUpdateForm
-from nueoffshore.forms import ApplyJobForm
 from django.shortcuts import render
 from django.utils import timezone
 from ..filters import SearchFilter
@@ -55,12 +54,6 @@ class JobDetailView(DetailView):
     template_name = 'job_detail.html'
     context_object_name = 'job'
     pk_url_kwarg = 'id'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['in_group'] = self.request.user.groups.filter(name='Applicants').exists()
-        context['form'] = ApplyJobForm()
-        return context
 
 
 def error_404(request, exception):

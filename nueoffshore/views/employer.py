@@ -1,4 +1,4 @@
-from django.shortcuts import HttpResponseRedirect
+from django.shortcuts import HttpResponseRedirect, HttpResponse
 from django.urls import reverse_lazy
 from ..forms import CreateJobForm
 from ..models import Job, Applicants, Certification
@@ -9,10 +9,13 @@ import sweetify
 from django_filters.views import FilterView
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from bootstrap_datepicker_plus import DateTimePickerInput
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, BadHeaderError
 from django.template.loader import get_template
-from django.contrib.auth.models import User
+from accounts.models import User
+from accounts.decorators import user_is_human_resources
+from django.contrib import messages
 
 
 class DashboardView(ListView):
@@ -23,6 +26,7 @@ class DashboardView(ListView):
     paginate_by = 2
 
     @method_decorator(login_required(login_url=reverse_lazy('login')))
+    @method_decorator(user_is_human_resources)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(self.request, *args, **kwargs)
 
@@ -39,6 +43,7 @@ class ScreenCandidate(FilterView):
     strict = False
 
     @method_decorator(login_required(login_url=reverse_lazy('login')))
+    @method_decorator(user_is_human_resources)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(self.request, *args, **kwargs)
 
@@ -83,26 +88,28 @@ class EmployerCreateView(LoginRequiredMixin, CreateView):
     template_name = 'job_form.html'
     success_url = reverse_lazy('job-listing')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Get the group name and pass it as a variable into the template
-        context['in_group'] = self.request.user.groups.filter(name='Human Resources').exists()
-        return context
+    @method_decorator(login_required(login_url=reverse_lazy('login')))
+    @method_decorator(user_is_human_resources)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(self.request, *args, **kwargs)
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.save()
-        users_emails = (User.objects.filter(groups__name='Applicants').values_list('email', flat=True))
+        users_emails = (User.objects.filter(is_applicant=True).values_list('email', flat=True))
         for user_email in users_emails:
-            email = EmailMultiAlternatives(
-                subject="New Job Position",
-                from_email='CAREERS N.U.E OFFSHORE' + '',
-                to=[user_email],
-            )
-            context = {}
-            html_template = get_template("new_job_template.html").render(context)
-            email.attach_alternative(html_template, "text/html")
-            email.send()
+            try:
+                email = EmailMultiAlternatives(
+                    subject="New Job Position",
+                    from_email='CAREERS N.U.E OFFSHORE' + '',
+                    to=[user_email],
+                )
+                context = {}
+                html_template = get_template("new_job_template.html").render(context)
+                email.attach_alternative(html_template, "text/html")
+                email.send()
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
         return super(EmployerCreateView, self).form_valid(form)
 
     def post(self, request, *args, **kwargs):
@@ -116,17 +123,16 @@ class EmployerCreateView(LoginRequiredMixin, CreateView):
 
 
 # Update a Post
-class EmployerUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class EmployerUpdateView(LoginRequiredMixin, UpdateView):
     model = Job
     fields = ['title', 'location', 'description', 'requirement', 'years_of_experience', 'type', 'filled', 'end_date']
     template_name = 'job_form.html'
     pk_url_kwarg = 'id'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Get the group name and pass it as a variable into the template
-        context['in_group'] = self.request.user.groups.filter(name='Human Resources').exists()
-        return context
+    @method_decorator(login_required(login_url=reverse_lazy('login')))
+    @method_decorator(user_is_human_resources)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(self.request, *args, **kwargs)
 
     def get_form(self, **kwargs):
         form = super().get_form(**kwargs)
@@ -138,25 +144,26 @@ class EmployerUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
 
     def test_func(self):
-        job = self.get_object()
-        if self.request.user == job.user:
+        if self.request.user.is_human_resources:
             return True
         return False
 
     def get_success_url(self):
+        messages.success(self.request, 'Job Detail Updated')
         return reverse_lazy('job-detail', kwargs={'id': self.kwargs['id']})
 
 
 # Delete a Post
-class JobDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class JobDeleteView(LoginRequiredMixin, SuccessMessageMixin, UserPassesTestMixin, DeleteView):
     model = Job
     template_name = 'job_confirm_delete.html'
     success_url = reverse_lazy('job-listing')
+    success_message = 'Job Deleted!!!'
 
     def test_func(self):
         job = self.get_object()
-        # Only users that created the post are permitted to delete the post
-        if self.request.user == job.user:
+        # Only HR that created the post are permitted to delete the post
+        if self.request.user.is_human_resources:
             return True
         return False
 

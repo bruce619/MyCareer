@@ -32,7 +32,7 @@
                 {% for applicant in object_list %}
                     <div class="col-lg-6">
                         <div class="content-section col-md-9">
-                            <h4>{{ applicant.user.get_full_name }}</h4>
+                            <h4>{{ applicant.user.first_name }} {{ applicant.user.last_name }}</h4>
                             <a href="tel:{{ applicant.user.phone_number }}" target="_top" data-toggle="modal" data-target="#contact-modal" class="btn btn-outline-white-secondary btn-sm">
                                 <i class="fa fa-envelope"></i>Contact: {{ applicant.user.profile.phone_number }}
                             </a><br/>
@@ -43,16 +43,18 @@
                                 <span class="badge badge-info">Applied {{ applicant.created_at.astimezone }}</span>
                             </p>
                             <article class="media content-section">
-                               <img class="img-circle article-img" src="{{ applicant.user.profile.image.url }}">
+                                <a href="{{ applicant.user.profile.image.url }}">
+                                    <img class="img-circle article-img" src="{{ applicant.user.profile.image.url }}">
+                                </a>
                               <div class="content-section col-md-9">
                                   <h3 class="article-title">Applicant Details</h3>
-                                  <p class="article-title"> <b style="color:black;">sex:</b> {{ applicant.user.profile.sex }}</p>
-                                  <p class="article-title"> <b style="color:black;">Date Of Birth:</b> {{ applicant.user.profile.date_of_birth | date:"F d, Y" }}</p>
-                                  <p class="article-title"> <b style="color:black;">Age:</b> {{ applicant.age }}</p>
-                                  <p class="article-title"> <b style="color:black;">Nationality:</b> {{ applicant.user.profile.Nationality }}</p>
-                                  <p class="article-title"> <b style="color:black;">Degree:</b> {{ applicant.degree }}</p>
-                                  <p class="article-title"> <b style="color:black;">Class of Degree:</b> {{ applicant.class_of_degree }}</p>
-                                  <p class="article-title"> <b style="color:black;">Years of Experience:</b>{{ applicant.experience }}</p>
+                                  <p class="article-title"> <b style="color:black;">sex: </b>{{ applicant.user.profile.sex }}</p>
+                                  <p class="article-title"> <b style="color:black;">Date Of Birth: </b>{{ applicant.user.profile.date_of_birth | date:"F d, Y" }}</p>
+                                  <p class="article-title"> <b style="color:black;">Age: </b>{{ applicant.age }}</p>
+                                  <p class="article-title"> <b style="color:black;">Nationality: </b>{{ applicant.user.profile.Nationality }}</p>
+                                  <p class="article-title"> <b style="color:black;">Degree: </b>{{ applicant.degree }}</p>
+                                  <p class="article-title"> <b style="color:black;">Class of Degree: </b>{{ applicant.class_of_degree }}</p>
+                                  <p class="article-title"> <b style="color:black;">Years of Experience: </b>{{ applicant.experience }}</p>
                                   {% if applicant.cv %}
                                   <button class="button-download"><i class="fa fa-download"></i> <a target="_blank" href="{{ applicant.cv.url}}">Applicant CV:</a></button> CV for this role
                                   {% else %}

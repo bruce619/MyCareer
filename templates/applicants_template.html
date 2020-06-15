@@ -30,7 +30,7 @@
 <body>
     <div class="mail">
         <p>A new applicant has applied for a job role on the careers portal</p>
-        <p class="title"><b>Applicant Name:</b> {{ fullname }}</p>
+        <p class="title"><b>Applicant Name:</b> {{ first_name }} {{ last_name }}</p>
         <p class="title"><b>Job Title:</b> {{ job.title }}</p>
         <p>Visit the link below to follow up on applicants</p>
         <button><a href="http://127.0.0.1:8000/employer/dashboardscreen/{{job.id}}">nueoffshore.com</a> </button>
