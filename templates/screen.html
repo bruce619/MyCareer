@@ -72,7 +72,7 @@
                                   {% endif %}
                               </div>
                            </article>
-                                <a href="{% url 'send-notification' applicant.job.id %}" class="btn btn-outline-white-success">
+                                <a href="{% url 'send-notification' applicant.job.id applicant.id %}" class="btn btn-outline-white-success">
                                     <i class="fa fa-envelope"></i>Notify This Applicant
                                 </a>
                         </div>

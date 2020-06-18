@@ -24,7 +24,7 @@ urlpatterns = [
         path('unmark-filled/<int:job_id>', unfilled, name='job-unmark-filled'),
     ])),
     path('jobs/<int:job_id>/apply', job_apply, name='apply-job'),
-    path('send-notification/<int:id>/', send_notification, name='send-notification'),
+    path('send-notification/<int:job_id>/<int:applicant_id>', send_notification, name='send-notification'),
     path('reply-notification/<int:id>/', reply_message, name='reply-notification'),
     path('notifications/', NotificationView.as_view(), name='notifications'),
     path('mark-as-read/<int:id>/', mark_as_read, name='mark-as-read'),

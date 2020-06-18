@@ -1,7 +1,7 @@
 from django.shortcuts import HttpResponseRedirect, HttpResponse
 from django.urls import reverse_lazy
 from ..forms import CreateJobForm
-from ..models import Job, Applicants, Certification
+from ..models import Job, Applicants
 from ..filters import ApplicantFilter
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -11,11 +11,12 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from bootstrap_datepicker_plus import DateTimePickerInput
-from django.core.mail import EmailMultiAlternatives, BadHeaderError
-from django.template.loader import get_template
+from django.core.mail import BadHeaderError
 from accounts.models import User
 from accounts.decorators import user_is_human_resources
 from django.contrib import messages
+import datetime
+from ..email_task import send_html_mail
 
 
 class DashboardView(ListView):
@@ -66,6 +67,9 @@ class ScreenCandidate(FilterView):
 def filled(request, job_id=None):
     # Gets the the job posted by the logged in user(Admin/HR/Staff)
     job = Job.objects.get(user_id=request.user.id, id=job_id)
+    # current date
+    now = datetime.datetime.now()
+    # check if the job closure
     # Mark as filled
     job.filled = True
     job.save()
@@ -99,15 +103,14 @@ class EmployerCreateView(LoginRequiredMixin, CreateView):
         users_emails = (User.objects.filter(is_applicant=True).values_list('email', flat=True))
         for user_email in users_emails:
             try:
-                email = EmailMultiAlternatives(
-                    subject="New Job Position",
-                    from_email='CAREERS N.U.E OFFSHORE' + '',
-                    to=[user_email],
-                )
                 context = {}
-                html_template = get_template("new_job_template.html").render(context)
-                email.attach_alternative(html_template, "text/html")
-                email.send()
+                send_html_mail(
+                    'New Job Position',
+                    'CAREERS N.U.E OFFSHORE' + '',
+                    user_email,
+                    context,
+                    "new_job_template.html"
+                )
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
         return super(EmployerCreateView, self).form_valid(form)
@@ -157,7 +160,7 @@ class EmployerUpdateView(LoginRequiredMixin, UpdateView):
 class JobDeleteView(LoginRequiredMixin, SuccessMessageMixin, UserPassesTestMixin, DeleteView):
     model = Job
     template_name = 'job_confirm_delete.html'
-    success_url = reverse_lazy('job-listing')
+    success_url = reverse_lazy('employer-dashboard')
     success_message = 'Job Deleted!!!'
 
     def test_func(self):

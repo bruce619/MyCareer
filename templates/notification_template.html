@@ -29,12 +29,11 @@
 </head>
 <body>
     <div class="mail">
-        <p>A new job position has just been posted on the N.U.E Offshore Resources Careers portal</p>
-        <p>Hurry now and apply.</p>
-        <p>Visit link below to see latest job positions<p>
-        <button><a href="http://mydjangocareerapp.herokuapp.com/jobs/job-listing/">nueoffshore.com</a></button>
-        <br/>
-        <p>Cheers!!</p>
+        <p>New Message Alert</p>
+        <p class="title">{{ first_name }} {{ last_name }} just sent you a message regarding {{ job }}</p>
+        <p>Visit the link below to see message:</p>
+        <button><a href="http://mydjangocareerapp.herokuapp.com/notifications/">nueoffshore.com</a></button>
      </div>
 </body>
 </html>
+

@@ -5,11 +5,10 @@ from ..models import Applicants, Job, Certification
 from django.contrib.auth.mixins import LoginRequiredMixin
 import sweetify
 from django.views.generic import ListView
-from django.template.loader import get_template
-from django.core.mail import EmailMultiAlternatives, BadHeaderError
+from django.core.mail import BadHeaderError
 from accounts.models import User
 from django.contrib.auth.decorators import login_required
-
+from ..email_task import send_html_mail
 
 
 @login_required(login_url=reverse_lazy('login'))
@@ -41,34 +40,32 @@ def job_apply(request, job_id=None):
             applicants_email = (User.objects.filter(is_applicant=True).values_list('email', flat=True))
             for h_mail in hr_email:
                 try:
-                    h_email = EmailMultiAlternatives(
-                        subject="New applicant form submission",
-                        from_email='CAREERS N.U.E OFFSHORE' + '',
-                        to=[h_mail],
-                    )
                     context = {
-                        'first_name ': first_name,
-                        'last_name': last_name,
-                        'job': job,
-                    }
-                    html_template = get_template("applicants_template.html").render(context)
-                    h_email.attach_alternative(html_template, "text/html")
-                    h_email.send()
+                            'first_name': first_name,
+                            'last_name': last_name,
+                            'job': job,
+                        }
+                    send_html_mail(
+                        'New applicant form submission',
+                        'CAREERS N.U.E OFFSHORE' + '',
+                        h_mail,
+                        context,
+                        "applicants_template.html"
+                    )
                 except BadHeaderError:
                     return HttpResponse('Invalid header found.')
             for a_mail in applicants_email:
                 try:
-                    email = EmailMultiAlternatives(
-                        subject="Application successful",
-                        from_email='CAREERS N.U.E OFFSHORE' + '',
-                        to=[a_mail],
-                    )
                     context = {
-                        'job': job,
-                    }
-                    html_template = get_template("application_successful.html").render(context)
-                    email.attach_alternative(html_template, "text/html")
-                    email.send()
+                            'job': job,
+                        }
+                    send_html_mail(
+                        'Application Successful',
+                        'CAREERS N.U.E OFFSHORE' + '',
+                        a_mail,
+                        context,
+                        "application_successful.html"
+                    )
                 except BadHeaderError:
                     return HttpResponse('Invalid header found.')
             sweetify.success(request, title='Successful Application', text='You have successfully applied for {}'.format(job), icon='success', button="OK", timer=3000)
