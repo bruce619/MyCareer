@@ -152,7 +152,7 @@ class UserUpdateForm(forms.ModelForm):
 
 #  Profile Update form for Profile
 class ProfileUpdateForm(forms.ModelForm):
-    date_of_birth = forms.DateField(widget=forms.SelectDateWidget(years=YEARS))
+    date_of_birth = forms.DateField(label="Date Of Birth", widget=forms.SelectDateWidget(years=YEARS))
 
     class Meta:
         model = Profile
@@ -160,31 +160,8 @@ class ProfileUpdateForm(forms.ModelForm):
         labels = {
             'image': "Image",
             'sex': "Sex",
-            'birth_date': "Date Of Birth",
             'phone_number': "Phone Number",
             'nationality': "Nationality",
-        }
-        widgets = {
-            'last_name': forms.Select(
-                attrs={
-                    'class': 'form-control'
-                }
-            ),
-            'birth_date': forms.DateInput(
-                attrs={
-                    'class': 'form-control'
-                }
-            ),
-            'phone_number': forms.TextInput(
-                attrs={
-                    'class': 'form-control'
-                }
-            ),
-            'nationality': forms.TextInput(
-                attrs={
-                    'class': 'form-control'
-                }
-            ),
         }
 
     def clean_phonenumber(self):
