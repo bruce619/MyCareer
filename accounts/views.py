@@ -66,7 +66,7 @@ def login_view(request):
 
             if user:
                 login(request, user)
-                if request.user.profile.date_of_birth is None or request.user.profile.phone_number is None or request.user.profile.sex is None:
+                if request.user.profile.birth_date is None or request.user.profile.phone_number is None or request.user.profile.sex is None:
                     sweetify.info(request, title='Update Profile', text='Kindly complete your profile', icon='info', button='Ok', timer=5000)
                     return redirect("profile")
                 else:
