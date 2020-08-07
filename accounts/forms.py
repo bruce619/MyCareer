@@ -170,7 +170,7 @@ class ProfileUpdateForm(forms.ModelForm):
                     'class': 'form-control'
                 }
             ),
-            'date_of_birth': forms.DateInput(
+            'birth_date': forms.DateInput(
                 attrs={
                     'class': 'form-control'
                 }
@@ -180,7 +180,7 @@ class ProfileUpdateForm(forms.ModelForm):
                     'class': 'form-control'
                 }
             ),
-            'Nationality': forms.TextInput(
+            'nationality': forms.TextInput(
                 attrs={
                     'class': 'form-control'
                 }
