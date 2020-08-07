@@ -152,7 +152,7 @@ class UserUpdateForm(forms.ModelForm):
 
 #  Profile Update form for Profile
 class ProfileUpdateForm(forms.ModelForm):
-    date_of_birth = forms.DateField(label="Date Of Birth", widget=forms.SelectDateWidget(years=YEARS))
+    birth_date = forms.DateField(label="Date Of Birth", widget=forms.SelectDateWidget(years=YEARS))
 
     class Meta:
         model = Profile
