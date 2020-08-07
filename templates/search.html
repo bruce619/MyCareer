@@ -12,7 +12,6 @@
                     <div class="col-md-6">
                         <form method="get" enctype="multipart/form-data">
                             <fieldset class="form-group">
-                                <legend class="border-bottom mb-4"><b>Search Job Title</b></legend>
                                 {{ filter.form|bootstrap }}
                             </fieldset>
                             <div class="form-group">
@@ -86,4 +85,11 @@
 
     </div>
 </div>
+{% endblock %}
+
+{% block custom_js %}
+<script type="text/javascript">
+$("label").remove();
+$('#id_title').attr("placeholder", "e.g Engineer...")
+</script>
 {% endblock %}

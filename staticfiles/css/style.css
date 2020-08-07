@@ -98,7 +98,7 @@ span {
 #sidebar.active ul li a i {
     margin-right: 0;
     display: block;
-    font-size: 1.8em;
+    font-size: 1.9em;
     margin-bottom: 5px;
 }
 
@@ -221,7 +221,7 @@ a.article:hover {
     MEDIAQUERIES
 ----------------------------------------------------- */
 
-@media (max-width: 768px) {
+@media screen and (max-width: 600px) {
     #sidebar {
         min-width: 80px;
         max-width: 80px;
@@ -390,7 +390,7 @@ margin-left: 25px;
 	color:#ffc13b;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 600px) {
 
     .footer .footer-widget h3{
         color: black;

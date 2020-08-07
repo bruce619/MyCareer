@@ -12,10 +12,11 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <form method="get" enctype="multipart/form-data">
+                <form method="get">
                     <fieldset class="form-group">
                         <legend class="border-bottom mb-4"><b>Screen Applicants</b></legend>
-                        {{ filter.form|bootstrap }}
+                        {% csrf_token %}
+                        {{ filter.form | bootstrap }}
                     </fieldset>
                     <div class="form-group">
                         <button class="btn btn-outline-white-primary job-main-form__button" type="submit"><i class="fa fa-search"></i>Filter Candidates</button>

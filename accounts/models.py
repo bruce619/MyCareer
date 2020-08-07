@@ -94,14 +94,14 @@ def user_directory_path(instance, filename):
 class Profile(models.Model):
     # Columns for Profile Model
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=user_directory_path, default='default.jpg')
-    sex = models.CharField(choices=SEX_TYPE, null=True, blank=True, max_length=10)
-    date_of_birth = models.DateField(null=True, blank=True)
+    image = models.ImageField(verbose_name="Image", upload_to=user_directory_path, default='default.jpg')
+    sex = models.CharField(verbose_name="Sex", choices=SEX_TYPE, null=True, blank=True, max_length=10)
+    birth_date = models.DateField(verbose_name="Date Of Birth", null=True, blank=True)
     phone_number = models.CharField(verbose_name="phone number", max_length=20, unique=True, null=True, blank=True,
                                     error_messages={
                                        'unique': "Phone number already exists.",
                                     })
-    Nationality = models.CharField(null=True, blank=True, max_length=20)
+    nationality = models.CharField(verbose_name="Nationality", null=True, blank=True, max_length=20)
 
     def __str__(self):
         #  Return the username on the database "e.g Anderson Dean Profile"

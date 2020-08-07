@@ -20,7 +20,7 @@ class AccountAdmin(UserAdmin):
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'date_of_birth', 'phone_number')
+    list_display = ('user', 'birth_date', 'phone_number')
     search_fields = ('user',)
     readonly_fields = ()
 
@@ -30,7 +30,7 @@ class ProfileAdmin(admin.ModelAdmin):
     fieldsets = (
         (None,
          {'fields': ('user', 'image')}),
-        ('Personal info', {'fields': ('sex', 'date_of_birth', 'phone_number', 'Nationality')}),
+        ('Personal info', {'fields': ('sex', 'birth_date', 'phone_number', 'nationality')}),
     )
 
 

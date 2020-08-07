@@ -1,5 +1,5 @@
 from django import template
-from nueoffshore.models import Applicants, Notification, MessageStatus
+from nueoffshore.models import Applicants, Notification
 from django.db.models import Count
 
 
@@ -17,5 +17,5 @@ def is_already_applied(job, user):
 
 @register.filter
 def unread_notification(user):
-    qs = Notification.objects.filter(receiver=user, messagestatus=MessageStatus.objects.get(name='message sent')).annotate(num_user=Count('sender')).count()
+    qs = Notification.objects.filter(receiver=user, message_sent=True).annotate(num_user=Count('sender')).count()
     return qs

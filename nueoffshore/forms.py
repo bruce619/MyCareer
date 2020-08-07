@@ -4,11 +4,18 @@ from bootstrap_datepicker_plus import DateTimePickerInput
 from django.forms import modelformset_factory
 
 DEGREE_TYPE = (
-    ('PhD', "Doctorate Degree"),
-    ('M.Sc', "Master's Degree"),
-    ('B.Sc', "Bachelor's Degree"),
+    ('PhD', "PhD"),
+    ('Mphil', "Mphil"),
+    ('M.Sc', "M.Sc"),
+    ('MBA', "MBA"),
+    ('MBBS', "MBBS"),
+    ('B.Sc', "B.Sc"),
     ('HND', "HND"),
     ('OND', "OND"),
+    ('Diploma', "Diploma"),
+    ('NCE', "NCE"),
+    ('S.S.C.E/W.A.E.C', "S.S.C.E/W.A.E.C"),
+    ('Vocational', "Vocational"),
     ('Others', 'Others'),
 )
 

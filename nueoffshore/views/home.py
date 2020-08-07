@@ -1,4 +1,4 @@
-from ..models import Job, Applicants, Notification, MessageStatus
+from ..models import Job, Applicants, Notification
 from ..forms import NotificationForm
 from django.views.generic import ListView, DetailView, DeleteView
 from accounts.forms import ProfileUpdateForm
@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.urls import reverse_lazy
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
-from ..filters import SearchFilter
+from ..filters import SearchFilter, InboxSearchFilter, SentSearchFilter
 from django_filters.views import FilterView
 from django.contrib import messages
 from django.utils.decorators import method_decorator
@@ -15,6 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import BadHeaderError
 from ..email_task import send_html_mail
+from django.db.models import Q
 
 
 class HomeView(ListView):
@@ -82,7 +83,6 @@ def send_notification(request, job_id=None, applicant_id=None):
             message = form.cleaned_data.get('message')
             try:
                 datetimecreated = timezone.now()
-                messagestatus = MessageStatus.objects.get(name="message sent")
                 receiver = applicant.user
                 title = job
 
@@ -91,7 +91,7 @@ def send_notification(request, job_id=None, applicant_id=None):
                 notification.receiver = receiver
                 notification.job = title
                 notification.message = message
-                notification.messagestatus = messagestatus
+                notification.message_sent = True
                 notification.dateTimeCreated = datetimecreated
                 notification.save()
 
@@ -119,7 +119,7 @@ def send_notification(request, job_id=None, applicant_id=None):
 
             except ObjectDoesNotExist:
                 messages.warning(request, "Message not sent")
-                return redirect("send-notification", id=id)
+                return redirect("send-notification", job_id=job.id, applicant_id=applicant.id)
 
     return render(request, template_name, {form: 'form'})
 
@@ -139,7 +139,6 @@ def reply_message(request, id=None):
             message = form.cleaned_data.get('message')
             try:
                 datetimecreated = timezone.now()
-                messagestatus = MessageStatus.objects.get(name="message sent")
                 receiver = notification.sender
                 print(receiver)
                 title = notification.job.title
@@ -149,7 +148,7 @@ def reply_message(request, id=None):
                 notification.receiver = receiver
                 notification.job = Job.objects.get(title=title)
                 notification.message = message
-                notification.messagestatus = messagestatus
+                notification.message_sent = True
                 notification.dateTimeCreated = datetimecreated
                 notification.save()
 
@@ -172,21 +171,36 @@ def reply_message(request, id=None):
                     return HttpResponse('Invalid header found.')
 
                 messages.success(request, "Your message has been sent.")
-                return redirect("home")
+                return redirect("receiver-notifications")
 
             except ObjectDoesNotExist:
                 messages.warning(request, "Message not sent")
-                return redirect("send-notification", id=id)
+                return redirect("reply-notification", id=id)
 
     return render(request, template_name, {form: 'form'})
 
 
-class NotificationView(ListView):
+def mark_as_read(request, id=None):
+    notification = get_object_or_404(Notification, id=id)
+    notification.message_seen = True
+    notification.save()
+    return redirect('receiver-notifications')
+
+
+class DeleteMessage(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Notification
-    template_name = 'notifications.html'
-    context_object_name = 'notifications'
+    template_name = 'notification_confirm_delete.html'
+    success_url = reverse_lazy('inbox')
+    success_message = 'successfully deleted!'
+
+
+class InboxView(FilterView):
+    model = Notification
+    template_name = 'inbox.html'
+    filterset_class = InboxSearchFilter
     ordering = ['-dateTimeCreated']
     paginate_by = 7
+    strict = False
 
     @method_decorator(login_required(login_url=reverse_lazy('login')))
     def dispatch(self, request, *args, **kwargs):
@@ -194,27 +208,42 @@ class NotificationView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sent'] = MessageStatus.objects.get(name="message sent")
-        context['seen'] = MessageStatus.objects.get(name="message seen")
+        context['filter'] = InboxSearchFilter(self.request.GET, queryset=self.get_queryset())
+        query = self.request.GET.copy()
+        if 'page' in query:
+            del query['page']
+        context['queries'] = query
         return context
 
     def get_queryset(self):
         user = self.request.user
-        return Notification.objects.filter(receiver=user).order_by('-dateTimeCreated')
+        return self.model.objects.filter(receiver=user).distinct().order_by('-dateTimeCreated')
 
 
-def mark_as_read(request, id=None):
-    notification = get_object_or_404(Notification, id=id)
-    notification.messagestatus = MessageStatus.objects.get(name="message seen")
-    notification.save()
-    return redirect('notifications')
-
-
-class DeleteMessage(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class SentView(ListView):
     model = Notification
-    template_name = 'notification_confirm_delete.html'
-    success_url = reverse_lazy('notifications')
-    success_message = 'successfully deleted!'
+    template_name = 'sent.html'
+    filterset_class = SentSearchFilter
+    ordering = ['-dateTimeCreated']
+    paginate_by = 7
+    strict = False
+
+    @method_decorator(login_required(login_url=reverse_lazy('login')))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(self.request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = SentSearchFilter(self.request.GET, queryset=self.get_queryset())
+        query = self.request.GET.copy()
+        if 'page' in query:
+            del query['page']
+        context['queries'] = query
+        return context
+
+    def get_queryset(self):
+        user = self.request.user
+        return self.model.objects.filter(sender=user).distinct().order_by('-dateTimeCreated')
 
 
 def error_404(request, exception):

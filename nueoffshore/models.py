@@ -22,11 +22,18 @@ country_state = (
 )
 
 DEGREE_TYPE = (
-    ('PhD', "Doctorate Degree"),
-    ('M.Sc', "Master's Degree"),
-    ('B.Sc', "Bachelor's Degree"),
+    ('PhD', "PhD"),
+    ('Mphil', "Mphil"),
+    ('M.Sc', "M.Sc"),
+    ('MBA', "MBA"),
+    ('MBBS', "MBBS"),
+    ('B.Sc', "B.Sc"),
     ('HND', "HND"),
     ('OND', "OND"),
+    ('Diploma', "Diploma"),
+    ('NCE', "NCE"),
+    ('S.S.C.E/W.A.E.C', "S.S.C.E/W.A.E.C"),
+    ('Vocational', "Vocational"),
     ('Others', 'Others'),
 )
 
@@ -92,19 +99,13 @@ class Certification(models.Model):
         return "{} {} {} Certificate".format(self.user.first_name, self.user.last_name, self.name)
 
 
-class MessageStatus(models.Model):
-    name = models.CharField(max_length=15)
-
-    def __str__(self):
-        return self.name
-
-
 class Notification(models.Model):
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sender')
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='receiver')
     job = models.ForeignKey(Job, verbose_name="Job id", on_delete=models.CASCADE)
     message = models.TextField(max_length=None)
-    messagestatus = models.ForeignKey(MessageStatus, on_delete=models.CASCADE)
+    message_sent = models.BooleanField(default=False)
+    message_seen = models.BooleanField(default=False)
     dateTimeCreated = models.DateTimeField(verbose_name='sent_date', auto_now_add=True)
 
     def __str__(self):

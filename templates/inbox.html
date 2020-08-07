@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% block title %}
+    Notifications
+{% endblock %}
+{% load static %}
+{% load bootstrap %}
+{% load is_already_applied %}
+
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include 'sidebar.html' %}
+
+        <div class="container">
+            <h3 class="text-center">Messaging</h3>
+            <div class="messaging">
+
+              <div class="inbox_msg">
+
+                <div class="inbox_people">
+                      <div class="headind_srch">
+                        <div class="srch_bar">
+                          <div class="stylish-input-group">
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="inbox_chat">
+                        <div class="chat_list active_chat">
+                            <div class="chat_people">
+                                <span class="badge featured-badge badge-danger">
+                                    {{ request.user|unread_notification }}
+                                </span>
+                                <div class="chat_ib">
+                                    <h5>
+                                        <a href="{% url 'inbox' %}">
+                                        <i class="fa fa-inbox" aria-hidden="true"></i>
+                                        inbox
+                                        </a>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat_list active_chat">
+                            <div class="chat_people">
+                                <div class="chat_ib">
+                                  <h5>
+                                      <a href="{% url 'sent' %}">
+                                      <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                      Sent
+                                      </a>
+                                  </h5>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="mesgs">
+                  <div class="msg_history">
+                      {% for notification in filter.qs %}
+                            <div class="incoming_msg">
+                                <div class="incoming_msg_img"> <img src="{{ notification.sender.profile.image.url }}" alt="sunil"> </div>
+                                <div class="received_msg">
+                                    <div class="received_withd_msg">
+                                        <span><b>From:</b> {{ notification.sender.first_name }} {{ notification.sender.last_name }}&nbsp; for &nbsp;{{ notification.job.title }}</span>
+                                        <p>{{notification.message}}</p>
+                                        <h4>
+                                        <a href="{% url 'reply-notification' notification.id %}">
+                                            <span class="badge badge-info">
+                                            <i class="fa fa-envelope"></i> Reply
+                                            </span>
+                                        </a>
+                                        {% if notification.message_seen == True %}
+                                            <a href="#">
+                                                <span class="badge badge-success">
+                                                <i class="fa fa-check"></i> Seen
+                                                </span>
+                                            </a>
+                                        {% elif notification.message_sent == True %}
+                                            <a href="{% url 'mark-as-read' notification.id %}">
+                                                <span class="badge badge-secondary">
+                                                    <i class="fa fa-check-circle"></i> Mark as Read
+                                                </span>
+                                            </a>
+                                        {% endif %}
+                                        <a href="{% url 'delete-message' notification.id %}">
+                                            <span class="badge badge-danger">
+                                            <i class="fa fa-trash"></i> Delete
+                                            </span>
+                                        </a>
+                                        <span class="time_date">{{notification.dateTimeCreated}}</span>
+                                        </h4>
+                                        <span class="time_date"></span>
+                                    </div>
+                                </div>
+                            </div>
+                      {% endfor %}
+
+                      {% if is_paginated %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-4 mb-4">
+                                    <ul class="pagination">
+                                        {% if page_obj.has_previous %}
+                                            <li class="page-item">
+                                                <a href="??{{ queries.urlencode }}&amp;page={{ page_obj.previous_page_number }}"
+                                                   class="page-link">&laquo;</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item disabled">
+                                                <a class="page-link">&laquo;</a>
+                                            </li>
+                                        {% endif %}
+                                        {% for i in page_obj.paginator.page_range %}
+                                            {% if page_obj.number == i %}
+                                                <li class="page-item active">
+                                                    <a class="page-link">{{ i }}</a>
+                                                </li>
+                                            {% else %}
+                                                <li class="page-item">
+                                                    <a href="?{{ queries.urlencode }}&amp;page={{ i }}" class="page-link">{{ i }}</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if page_obj.has_next %}
+                                            <li class="page-item">
+                                                <a href="?{{ queries.urlencode }}&amp;page={{ page_obj.next_page_number }}" class="page-link">&raquo;</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item disabled">
+                                                <a class="page-link">&raquo;</a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                      {% endif %}
+
+                  </div>
+
+                  <div class="type_msg">
+                    <div class="input_msg_write">
+                      <form method="get">
+                          {% csrf_token %}
+                          {{ filter.form | bootstrap }}
+                        <button class="msg_send_btn" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                      </form>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block custom_js %}
+<script type="text/javascript">
+$("label").remove();
+$('#id_multi_name_fields').attr("placeholder", "search")
+</script>
+{% endblock %}
