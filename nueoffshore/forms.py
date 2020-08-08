@@ -14,8 +14,7 @@ DEGREE_TYPE = (
     ('OND', "OND"),
     ('Diploma', "Diploma"),
     ('NCE', "NCE"),
-    ('S.S.C.E/W.A.E.C', "S.S.C.E/W.A.E.C"),
-    ('Vocational', "Vocational"),
+    ('SSCE/WAEC', "SSCE/WAEC"),
     ('Others', 'Others'),
 )
 
