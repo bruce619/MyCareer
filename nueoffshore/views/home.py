@@ -104,7 +104,7 @@ def send_notification(request, job_id=None, applicant_id=None):
                     }
                     send_html_mail(
                         "New Message",
-                        'CAREERS N.U.E OFFSHORE' + '',
+                        'CAREERS AT N.U.E OFFSHORE' + '',
                         [receiver_email],
                         context,
                         "notification_template.html"
@@ -160,7 +160,7 @@ def reply_message(request, id=None):
                     }
                     send_html_mail(
                         "New Message",
-                        'CAREERS N.U.E OFFSHORE' + '',
+                        'CAREERS AT N.U.E OFFSHORE' + '',
                         [receiver_email],
                         context,
                         "notification_template.html"

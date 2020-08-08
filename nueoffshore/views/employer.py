@@ -104,7 +104,7 @@ class EmployerCreateView(LoginRequiredMixin, CreateView):
                 context = {}
                 send_html_mail(
                     'New Job Position',
-                    'CAREERS N.U.E OFFSHORE' + '',
+                    'CAREERS AT N.U.E OFFSHORE' + '',
                     user_email,
                     context,
                     "new_job_template.html"

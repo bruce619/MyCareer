@@ -47,7 +47,7 @@ def job_apply(request, job_id=None):
                         }
                     send_html_mail(
                         'New applicant form submission',
-                        'CAREERS N.U.E OFFSHORE' + '',
+                        'CAREERS AT N.U.E OFFSHORE' + '',
                         h_mail,
                         context,
                         "applicants_template.html"
@@ -61,7 +61,7 @@ def job_apply(request, job_id=None):
                         }
                     send_html_mail(
                         'Application Successful',
-                        'CAREERS N.U.E OFFSHORE' + '',
+                        'CAREERS AT N.U.E OFFSHORE' + '',
                         a_mail,
                         context,
                         "application_successful.html"
