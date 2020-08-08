@@ -17,5 +17,5 @@ def is_already_applied(job, user):
 
 @register.filter
 def unread_notification(user):
-    qs = Notification.objects.filter(receiver=user, message_seen=True).annotate(num_user=Count('sender')).count()
+    qs = Notification.objects.filter(receiver=user, message_seen=True, message_sent=True).annotate(num_user=Count('sender')).count()
     return qs
