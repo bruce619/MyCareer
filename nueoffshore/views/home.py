@@ -15,7 +15,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import BadHeaderError
 from ..email_task import send_html_mail
-from django.db.models import Q
 
 
 class HomeView(ListView):
@@ -119,7 +118,7 @@ def send_notification(request, job_id=None, applicant_id=None):
 
             except ObjectDoesNotExist:
                 messages.warning(request, "Message not sent")
-                return redirect("send-notification", job_id=job.id, applicant_id=applicant.id)
+                return redirect("employer-dashboard-screen", id=job_id)
 
     return render(request, template_name, {form: 'form'})
 
@@ -171,7 +170,7 @@ def reply_message(request, id=None):
                     return HttpResponse('Invalid header found.')
 
                 messages.success(request, "Your message has been sent.")
-                return redirect("receiver-notifications")
+                return redirect("inbox")
 
             except ObjectDoesNotExist:
                 messages.warning(request, "Message not sent")
@@ -184,7 +183,7 @@ def mark_as_read(request, id=None):
     notification = get_object_or_404(Notification, id=id)
     notification.message_seen = True
     notification.save()
-    return redirect('receiver-notifications')
+    return redirect('inbox')
 
 
 class DeleteMessage(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
