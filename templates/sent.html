@@ -65,7 +65,8 @@
                         <div class="outgoing_msg">
                             <div class="outgoing_msg_img"> <img src="{{ notification.receiver.profile.image.url }}" alt="sunil"> </div>
                             <div class="sent_msg">
-                                <span><b>To:</b> {{ notification.receiver.first_name }} {{ notification.receiver.last_name }}&nbsp;for&nbsp;{{ notification.job.title }}</span>
+                                <span><b>To: {{ notification.receiver.first_name }} {{ notification.receiver.last_name }}</b></span>
+                                <span><b>Job: {{ notification.job.title }}</b></span>
                                 <p>{{notification.message}}</p>
                                 <h4>
                                 <a href="{% url 'delete-message' notification.id %}">
