@@ -1,10 +1,9 @@
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from .views.employee import AppliedJobs, job_apply
-from .views.employer import DashboardView, EmployerCreateView, EmployerUpdateView,  JobDeleteView, ScreenCandidate, filled, unfilled
-from .views.home import HomeView, SearchView, JobListView, JobDetailView, SentView, InboxView, send_notification, reply_message,\
-    mark_as_read, DeleteMessage
+from .views.employee import *
+from .views.employer import *
+from .views.home import *
 from django.views.generic import TemplateView
 
 
