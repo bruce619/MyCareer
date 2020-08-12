@@ -45,7 +45,7 @@
                                     </td>
                                     <td>{{ job.end_date }}</td>
                                     <td>
-                                        <a href="{% url 'employer-dashboard-screen' job.id %}" class="btn btn-warning">
+                                        <a href="{% url 'employer-dashboard-screen' job.id %}" style="border-radius: 24px;" class="btn btn-warning">
                                             <i class="fa fa-users"></i>{{ job.applicants.count }}
                                             <span class="hidden-xs hidden-sm">Applicants</span>
                                         </a>
