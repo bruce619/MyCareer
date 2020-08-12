@@ -60,13 +60,13 @@
 
                     <div class="content-section col-md-8">
                         {% if job.filled %}
-                            <input type="button" class="btn btn-outline-white-primary" value="This Position is Filled"/>
+                            <input type="button" class="btn btn-outline-white-primary" style="border-radius: 24px;" value="This Position is Filled"/>
                         {% else %}
                             {% is_already_applied job request.user as is_applied %}
                             {% if is_applied %}
-                                <input type="button" class="btn btn-outline-white-primary" value="Already applied"/>
+                                <input type="button" class="btn btn-outline-white-primary" style="border-radius: 24px;" value="Already applied"/>
                             {% else %}
-                                    <a class="apply-job btn btn-block btn-primary btn-md" href="{% url 'apply-job' job.id %}">Click here to apply</a>
+                                    <a class="apply-job btn btn-block btn-primary btn-md" style="border-radius: 24px;" href="{% url 'apply-job' job.id %}">Click here to apply</a>
                             {% endif %}
                         {% endif %}
                     </div>
@@ -79,7 +79,7 @@
                     <form method="post" action="{% url 'login' %}?next={{request.path}}" enctype="multipart/form-data">
                       {% csrf_token %}
                         <input type="hidden" name="next" value="{{ request.GET.next }}"/>
-                         <button class="btn btn-outline-white-primary">Log in to apply for this role</button>
+                         <button class="btn btn-outline-white-primary" style="border-radius: 24px;">Log in to apply for this role</button>
                     </form>
                     <br><br>
           {% endif %}

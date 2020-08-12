@@ -19,7 +19,7 @@
                         {{ filter.form | bootstrap }}
                     </fieldset>
                     <div class="form-group">
-                        <button class="btn btn-outline-white-primary job-main-form__button" type="submit"><i class="fa fa-search"></i>Filter Candidates</button>
+                        <button class="btn btn-outline-white-primary job-main-form__button" style="border-radius: 24px;" type="submit"><i class="fa fa-search"></i>Filter Candidates</button>
                     </div>
                 </form>
             </div>
@@ -73,7 +73,7 @@
                                   {% endif %}
                               </div>
                            </article>
-                                <a href="{% url 'send-notification' applicant.job.id applicant.id %}" class="btn btn-outline-white-success">
+                                <a href="{% url 'send-notification' applicant.job.id applicant.id %}" style="border-radius: 24px;" class="btn btn-outline-white-success">
                                     <i class="fa fa-envelope"></i>Notify This Applicant
                                 </a>
                         </div>
