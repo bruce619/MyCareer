@@ -2,6 +2,8 @@ from django.db import models
 from PIL import Image
 from django.core.files.storage import default_storage as storage
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from nueoffshore.extra import ContentTypeRestrictedFileField
+from django.core.exceptions import ValidationError
 
 
 class MyAccountManager(BaseUserManager):
@@ -90,11 +92,26 @@ def user_directory_path(instance, filename):
     return 'user_{0}/{1}'.format(instance.user.id, filename)
 
 
+def validate_file_extension(value):
+    import os
+    ext = os.path.splitext(value.name)[1]
+    valid_extensions = ['.jpeg', '.jpg', '.png']
+    if not ext in valid_extensions:
+        raise ValidationError(u'File not supported! Upload image format only')
+
+
 #  Profile Model: Will be saved the the database
 class Profile(models.Model):
     # Columns for Profile Model
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(verbose_name="Image", upload_to=user_directory_path, default='default.jpg')
+    # image = models.ImageField(verbose_name="Image", upload_to=user_directory_path, default='default.jpg')
+    image = ContentTypeRestrictedFileField(
+        upload_to=user_directory_path,
+        content_types=['image/jpeg'],
+        max_upload_size=20971520,
+        default='default.jpg',
+        validators=[validate_file_extension]
+        )
     sex = models.CharField(verbose_name="Sex", choices=SEX_TYPE, null=True, blank=True, max_length=10)
     birth_date = models.DateField(verbose_name="Date Of Birth", null=True, blank=True)
     phone_number = models.CharField(verbose_name="phone number", max_length=20, unique=True, null=True, blank=True,

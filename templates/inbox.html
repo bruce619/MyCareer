@@ -12,8 +12,6 @@
 {% endblock %}
 
 {% block content %}
-{% include 'sidebar.html' %}
-
         <div class="container">
             <h3 class="text-center">Messaging</h3>
             <div class="messaging">
@@ -61,45 +59,49 @@
 
                 <div class="mesgs">
                   <div class="msg_history">
-                      {% for notification in filter.qs %}
-                            <div class="incoming_msg">
-                                <div class="incoming_msg_img"> <img src="{{ notification.sender.profile.image.url }}" alt="sunil"> </div>
-                                <div class="received_msg">
-                                    <div class="received_withd_msg">
-                                        <span><b>From: {{ notification.sender.first_name }} {{ notification.sender.last_name }}</b></span><br>
-                                        <span><b>Job: {{ notification.job.title }}</b></span>
-                                        <p>{{notification.message}}</p>
-                                        <h4>
-                                        <a href="{% url 'reply-notification' notification.id %}">
-                                            <span class="badge badge-info">
-                                            <i class="fa fa-envelope"></i> Reply
-                                            </span>
-                                        </a>
-                                        {% if notification.message_seen == True %}
-                                            <a href="#">
-                                                <span class="badge badge-success">
-                                                <i class="fa fa-check"></i> Seen
+                      {% if object_list %}
+                          {% for notification in filter.qs %}
+                                <div class="incoming_msg">
+                                    <div class="incoming_msg_img"> <img src="{{ notification.sender.profile.image.url }}" alt="sunil"> </div>
+                                    <div class="received_msg">
+                                        <div class="received_withd_msg">
+                                            <span><b>From: {{ notification.sender.first_name }} {{ notification.sender.last_name }}</b></span><br>
+                                            <span><b>Job: {{ notification.job.title }}</b></span>
+                                            <p>{{notification.message}}</p>
+                                            <h4>
+                                            <a href="{% url 'reply-notification' notification.id %}">
+                                                <span class="badge badge-info">
+                                                <i class="fa fa-envelope"></i> Reply
                                                 </span>
                                             </a>
-                                        {% elif notification.message_sent == True %}
-                                            <a href="{% url 'mark-as-read' notification.id %}">
-                                                <span class="badge badge-secondary">
-                                                    <i class="fa fa-check-circle"></i> Mark as Read
+                                            {% if notification.message_seen == True %}
+                                                <a href="#">
+                                                    <span class="badge badge-success">
+                                                    <i class="fa fa-check"></i> Seen
+                                                    </span>
+                                                </a>
+                                            {% elif notification.message_sent == True %}
+                                                <a href="{% url 'mark-as-read' notification.id %}">
+                                                    <span class="badge badge-secondary">
+                                                        <i class="fa fa-check-circle"></i> Mark as Read
+                                                    </span>
+                                                </a>
+                                            {% endif %}
+                                            <a href="{% url 'delete-message' notification.id %}">
+                                                <span class="badge badge-danger">
+                                                <i class="fa fa-trash"></i> Delete
                                                 </span>
                                             </a>
-                                        {% endif %}
-                                        <a href="{% url 'delete-message' notification.id %}">
-                                            <span class="badge badge-danger">
-                                            <i class="fa fa-trash"></i> Delete
-                                            </span>
-                                        </a>
-                                        <span class="time_date">{{notification.dateTimeCreated}}</span>
-                                        </h4>
-                                        <span class="time_date"></span>
+                                            <span class="time_date">{{notification.dateTimeCreated}}</span>
+                                            </h4>
+                                            <span class="time_date"></span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                      {% endfor %}
+                          {% endfor %}
+                      {% else %}
+                        <p style="text-align:center;"> no messages</p>
+                      {% endif %}
 
                       {% if is_paginated %}
                         <div class="row">

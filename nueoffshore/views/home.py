@@ -197,6 +197,7 @@ class InboxView(FilterView):
     model = Notification
     template_name = 'inbox.html'
     filterset_class = InboxSearchFilter
+    context_object_name = 'inboxes'
     ordering = ['-dateTimeCreated']
     paginate_by = 7
     strict = False
@@ -224,6 +225,7 @@ class SentView(ListView):
     template_name = 'sent.html'
     filterset_class = SentSearchFilter
     ordering = ['-dateTimeCreated']
+    context_object_name = 'sents'
     paginate_by = 7
     strict = False
 
