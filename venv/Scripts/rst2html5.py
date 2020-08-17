@@ -1,4 +1,4 @@
-#!C:\Users\nueof\PycharmProjects\django-project\venv\Scripts\python.exe
+#!C:\Users\user\Documents\SoftwareEngineering\python\MyCareer\venv\Scripts\python.exe
 # -*- coding: utf8 -*-
 # :Copyright: © 2015 Günter Milde.
 # :License: Released under the terms of the `2-Clause BSD license`_, in short:

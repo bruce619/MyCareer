@@ -33,7 +33,6 @@ INSTALLED_APPS = [
     'sweetify',
     'django_filters',
     'bootstrapform',
-    'anymail',
 
     # custom app
     'nueoffshore',
