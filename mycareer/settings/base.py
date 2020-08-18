@@ -208,6 +208,4 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880
 
 
-
-
 # python manage.py runserver --settings=mysite.settings.local
