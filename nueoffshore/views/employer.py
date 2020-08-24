@@ -16,6 +16,7 @@ from accounts.models import User
 from accounts.decorators import user_is_human_resources
 from django.contrib import messages
 from ..email_task import send_html_mail
+from mycareer.settings.production import EMAIL_HOST_USER
 
 
 class DashboardView(ListView):
@@ -104,7 +105,7 @@ class EmployerCreateView(LoginRequiredMixin, CreateView):
                 context = {}
                 send_html_mail(
                     'New Job Position',
-                    'CAREERS AT N.U.E OFFSHORE' + '',
+                    EMAIL_HOST_USER,
                     user_email,
                     context,
                     "new_job_template.html"

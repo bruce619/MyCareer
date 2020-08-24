@@ -15,6 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import BadHeaderError
 from ..email_task import send_html_mail
+from mycareer.settings.production import EMAIL_HOST_USER
 
 
 class HomeView(ListView):
@@ -104,7 +105,7 @@ def send_notification(request, job_id=None, applicant_id=None):
                     }
                     send_html_mail(
                         "New Message",
-                        'CAREERS AT N.U.E OFFSHORE' + '',
+                        EMAIL_HOST_USER,
                         [receiver_email],
                         context,
                         "notification_template.html"
@@ -139,7 +140,6 @@ def reply_message(request, id=None):
             try:
                 datetimecreated = timezone.now()
                 receiver = notification.sender
-                print(receiver)
                 title = notification.job.title
 
                 notification = Notification()
@@ -160,7 +160,7 @@ def reply_message(request, id=None):
                     }
                     send_html_mail(
                         "New Message",
-                        'CAREERS AT N.U.E OFFSHORE' + '',
+                        EMAIL_HOST_USER,
                         [receiver_email],
                         context,
                         "notification_template.html"
