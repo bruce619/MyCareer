@@ -9,7 +9,7 @@ from django.core.mail import BadHeaderError
 from accounts.models import User
 from django.contrib.auth.decorators import login_required
 from ..email_task import send_html_mail
-from mycareer.settings.production import EMAIL_HOST_USER
+from mycareer.settings.production import DEFAULT_FROM_EMAIL
 
 
 @login_required(login_url=reverse_lazy('login'))
@@ -48,7 +48,7 @@ def job_apply(request, job_id=None):
                         }
                     send_html_mail(
                         'New applicant form submission',
-                        EMAIL_HOST_USER,
+                        DEFAULT_FROM_EMAIL,
                         h_mail,
                         context,
                         "applicants_template.html"
@@ -62,7 +62,7 @@ def job_apply(request, job_id=None):
                         }
                     send_html_mail(
                         'Application Successful',
-                        EMAIL_HOST_USER,
+                        DEFAULT_FROM_EMAIL,
                         a_mail,
                         context,
                         "application_successful.html"

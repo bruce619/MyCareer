@@ -15,7 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import BadHeaderError
 from ..email_task import send_html_mail
-from mycareer.settings.production import EMAIL_HOST_USER
+from mycareer.settings.production import DEFAULT_FROM_EMAIL
 
 
 class HomeView(ListView):
@@ -97,7 +97,6 @@ def send_notification(request, job_id=None, applicant_id=None):
 
                 try:
                     receiver_email = str(applicant.user.email)
-                    print(receiver_email)
                     context = {
                         'first_name': request.user.first_name,
                         'last_name': request.user.last_name,
@@ -105,7 +104,7 @@ def send_notification(request, job_id=None, applicant_id=None):
                     }
                     send_html_mail(
                         "New Message",
-                        EMAIL_HOST_USER,
+                        DEFAULT_FROM_EMAIL,
                         [receiver_email],
                         context,
                         "notification_template.html"
@@ -160,7 +159,7 @@ def reply_message(request, id=None):
                     }
                     send_html_mail(
                         "New Message",
-                        EMAIL_HOST_USER,
+                        DEFAULT_FROM_EMAIL,
                         [receiver_email],
                         context,
                         "notification_template.html"

@@ -70,7 +70,7 @@ EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER_TEST")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD_TEST")
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = "CAREERS AT NUE OFFSHORE <{}>".format(EMAIL_HOST_USER)
 SERVER_EMAIL = EMAIL_HOST_USER
 
 # python manage.py runserver --settings=mycareer.settings.development
