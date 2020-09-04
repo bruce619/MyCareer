@@ -4,7 +4,6 @@ from accounts.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.core.exceptions import ValidationError
 from django.conf import settings
-from .extra import ContentTypeRestrictedFileField
 
 
 JOB_TYPE = (
@@ -79,13 +78,7 @@ class Applicants(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='applicants')
     experience = models.IntegerField(blank=True, null=True)
-    cv = ContentTypeRestrictedFileField(
-        upload_to=user_directory_path,
-        content_types=['application/pdf'],
-        max_upload_size=20971520,
-        validators=[validate_file_extension]
-    )
-    # cv = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension])
+    cv = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension])
     degree = models.CharField(choices=DEGREE_TYPE, blank=True, max_length=10)
     class_of_degree = models.CharField(choices=CLASS_OF_DEGREE, blank=True, max_length=10)
     age = models.IntegerField(choices=list(zip(range(18, 41), range(18, 41))))
@@ -99,14 +92,7 @@ class Certification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     applicant = models.ForeignKey(Applicants, on_delete=models.CASCADE, related_name='applicant_certifications', null=True)
     name = models.CharField(max_length=100, default='None')
-    # certification = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension], default='default.pdf')
-    certification = ContentTypeRestrictedFileField(
-        upload_to=user_directory_path,
-        content_types=['application/pdf', 'application/zip'],
-        max_upload_size=20971520,
-        default='default.pdf',
-        validators=[validate_file_extension]
-    )
+    certification = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension], default='default.pdf')
 
     def __str__(self):
         return "{} {} {} Certificate".format(self.user.first_name, self.user.last_name, self.name)

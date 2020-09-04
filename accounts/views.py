@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, FormView, RedirectView
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, AccountAuthenticationForm, UserUpdateForm, ProfileUpdateForm
-from accounts.models import User
+from accounts.models import User, Profile
 from django.contrib import messages, auth
 from django.contrib.auth import login, authenticate
 import urllib.parse
@@ -104,3 +104,37 @@ def profile(request):
     }
 
     return render(request, 'profile.html', context)
+
+
+# class ProfileView(FormView):
+#     template_name = 'profile.html'
+#     form_class = UserUpdateForm
+#     second_form_class = ProfileUpdateForm
+#     success_url = '/'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(ProfileView, self).get_context_data(**kwargs)
+#         if 'u_form' not in context:
+#             context['u_form'] = self.form_class(instance=self.request.user)
+#         if 'p_form' not in context:
+#             context['p_form'] = self.second_form_class(instance=self.request.user.profile)
+#         return context
+#
+#     def form_invalid(self, **kwargs):
+#         return self.render_to_response(self.get_context_data(**kwargs))
+#
+#     def post(self, request, *args, **kwargs):
+#         u_form = self.form_class(request.POST, instance=request.user)
+#         p_form = self.second_form_class(request.POST, request.FILES, instance=request.user.profile)
+#         # Check if the forms are valid
+#         if u_form.is_valid and p_form.is_valid():
+#             u_form.save()
+#             p_form.save()
+#             sweetify.success(request, title='Account Updated', text='Your account has been updated!', icon='success', button='Ok', timer=3000)
+#             return HttpResponseRedirect('/')
+#         else:
+#             return self.form_invalid(**kwargs)
+
+
+
+

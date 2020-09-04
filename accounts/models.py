@@ -2,7 +2,6 @@ from django.db import models
 from PIL import Image
 from django.core.files.storage import default_storage as storage
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-from nueoffshore.extra import ContentTypeRestrictedFileField
 from django.core.exceptions import ValidationError
 
 
@@ -104,14 +103,7 @@ def validate_file_extension(value):
 class Profile(models.Model):
     # Columns for Profile Model
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # image = models.ImageField(verbose_name="Image", upload_to=user_directory_path, default='default.jpg')
-    image = ContentTypeRestrictedFileField(
-        upload_to=user_directory_path,
-        content_types=['image/jpeg'],
-        max_upload_size=20971520,
-        default='default.jpg',
-        validators=[validate_file_extension]
-        )
+    image = models.ImageField(verbose_name="Image", upload_to=user_directory_path, default='default.jpg')
     sex = models.CharField(verbose_name="Sex", choices=SEX_TYPE, null=True, blank=True, max_length=10)
     birth_date = models.DateField(verbose_name="Date Of Birth", null=True, blank=True)
     phone_number = models.CharField(verbose_name="phone number", max_length=20, unique=True, null=True, blank=True,

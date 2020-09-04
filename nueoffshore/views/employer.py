@@ -16,7 +16,7 @@ from accounts.models import User
 from accounts.decorators import user_is_human_resources
 from django.contrib import messages
 from ..email_task import send_html_mail
-from mycareer.settings.production import DEFAULT_FROM_EMAIL
+from mycareer.settings import DEFAULT_FROM_EMAIL
 
 
 class DashboardView(ListView):
