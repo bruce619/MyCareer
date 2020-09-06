@@ -14,7 +14,7 @@ urlpatterns = [
     path('jobs/job-detail/<int:id>/update', EmployerUpdateView.as_view(), name='job-update'),
     path('jobs/job-detail/<int:pk>/delete/', JobDeleteView.as_view(), name='job-delete'),
     path('jobs/my-joblist/', AppliedJobs.as_view(), name='my-applied-jobs'),
-    path('employer/dashboard/ /vj.', include([
+    path('employer/dashboard/', include([
         path('', DashboardView.as_view(), name='employer-dashboard'),
         path('screen/<int:job_id>/', ScreenCandidate.as_view(), name='employer-dashboard-screen'),
         path('mark-filled/<int:job_id>/', filled, name='job-mark-filled'),

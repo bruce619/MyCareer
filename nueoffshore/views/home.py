@@ -256,6 +256,11 @@ def error_500(request):
     return render(request, 'error_500.html', data)
 
 
+def error_403(request, exception):
+    data = {}
+    return render(request, 'error_403', data)
+
+
 
 
 

@@ -23,8 +23,6 @@ DEBUG = True
 
 
 # SECRET_KEY = config('SECRET_KEY')
-#
-# ALLOWED_HOSTS = ['careers.nueoffshore.com', 'www.careers.nueoffshore.com', 'https://www.careers.nueoffshore.com']
 
 
 # Application definition
@@ -324,6 +322,7 @@ if DEBUG:
         'SHOW_TOOLBAR_CALLBACK': show_toolbar
 
     }
+
 
 
 

@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from nueoffshore.views import home
-from django.conf.urls import handler404, handler500
+from django.conf.urls import handler404, handler500, handler403
 
 from accounts.views import (
     LogoutView,
@@ -54,3 +54,4 @@ if settings.DEBUG:
 
 handler404 = home.error_404
 handler500 = home.error_500
+handler403 = home.error_403
