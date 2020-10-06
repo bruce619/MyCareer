@@ -2,6 +2,8 @@
 {% block title %}Login{% endblock %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load socialaccount %}
+
 
 {% block content %}
                  <center>
@@ -26,6 +28,18 @@
                                 </div>
                         </div>
                 </center>
+            <hr>
+                <center><h3>OR</h3></center>
+            <hr>
+            <center>
+                 <form method="post" action="{% provider_login_url 'google' %}?next={{request.path}}" enctype="multipart/form-data">
+                      {% csrf_token %}
+                     <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+                     <button class="btn btn-outline-white-primary" style="border-radius: 24px;">
+                         <b> <i class="fab fa-google"></i>&nbsp; Login with google </b>
+                     </button>
+                 </form>
+            </center>
 
     </div>
 </div>

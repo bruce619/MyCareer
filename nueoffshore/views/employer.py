@@ -23,7 +23,7 @@ class DashboardView(ListView):
     model = Job
     template_name = 'dashboard.html'
     context_object_name = 'jobs'
-    ordering = ['-date']
+    ordering = ['-created_at']
     paginate_by = 2
 
     @method_decorator(login_required(login_url=reverse_lazy('login')))
@@ -32,7 +32,7 @@ class DashboardView(ListView):
         return super().dispatch(self.request, *args, **kwargs)
 
     def get_queryset(self):
-        return self.model.objects.filter(user_id=self.request.user.id).order_by('-date')
+        return self.model.objects.filter(user_id=self.request.user.id).order_by('-created_at')
 
 
 class ScreenCandidate(FilterView):
@@ -40,7 +40,7 @@ class ScreenCandidate(FilterView):
     template_name = 'screen.html'
     filterset_class = ApplicantFilter
     paginate_by = 2
-    ordering = ['id']
+    ordering = ['created_at']
     strict = False
 
     @method_decorator(login_required(login_url=reverse_lazy('login')))
@@ -49,7 +49,7 @@ class ScreenCandidate(FilterView):
         return super().dispatch(self.request, *args, **kwargs)
 
     def get_queryset(self):
-        return Applicants.objects.filter(job_id=self.kwargs['job_id']).order_by('id')
+        return Applicants.objects.filter(job_id=self.kwargs['job_id']).order_by('created_at')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

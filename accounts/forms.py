@@ -167,8 +167,8 @@ class ProfileUpdateForm(forms.ModelForm):
     def clean_phonenumber(self):
         phone_number = self.cleaned_data['phone_number']
         try:
-            account = User.objects.exclude(pk=self.instance.pk).get(phone_number=phone_number)
-        except User.DoesNotExist:
+            account = Profile.objects.exclude(pk=self.instance.pk).get(phone_number=phone_number)
+        except Profile.DoesNotExist:
             return phone_number
         raise forms.ValidationError('Phone Number "%s" is already in use.' % account)
 

@@ -16,11 +16,14 @@ urlpatterns = [
     path('', include('nueoffshore.urls')),
     path('accounts/', include('accounts.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('api/', include([
-        path('', include('nueoffshore.api.urls')),
-    ])),
     path('login/', login_view, name="login"),
     path('logout/', LogoutView.as_view(), name="logout"),
+
+    # # rest framework urls
+    # path('api/', include([
+    #     path('', include('accounts.api.urls')),
+    #     path('', include('nueoffshore.api.urls')),
+    # ])),
 
     # Password reset links (ref: https://github.com/django/django/blob/master/django/contrib/auth/views.py)
     path('password_change/done/',

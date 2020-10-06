@@ -80,9 +80,9 @@ class AppliedJobs(ListView, LoginRequiredMixin):
     model = Applicants
     template_name = 'my_job_list.html'
     context_object_name = 'applications'
-    ordering = ['-date']
+    ordering = ['-created_at']
     paginate_by = 3
 
     def get_queryset(self):
         user = self.request.user
-        return Job.objects.filter(applicants__user=user).distinct().order_by('-date')
+        return Job.objects.filter(applicants__user=user).distinct().order_by('-created_at')

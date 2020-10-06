@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import BadHeaderError
-from ..email_task import send_html_mail
+from ..email_task import send_html_mail_message
 from mycareer.settings import DEFAULT_FROM_EMAIL
 
 
@@ -37,7 +37,7 @@ class SearchView(FilterView):
     model = Job
     template_name = 'search.html'
     filterset_class = SearchFilter
-    ordering = ['-date']
+    ordering = ['-created_at']
     paginate_by = 3
     context_object_name = 'jobs'
     strict = False
@@ -56,7 +56,7 @@ class JobListView(ListView):
     model = Job
     template_name = 'job_listing.html'
     context_object_name = 'jobs'
-    ordering = ['-date']
+    ordering = ['-created_at']
     paginate_by = 4
 
 
@@ -102,7 +102,7 @@ def send_notification(request, job_id=None, applicant_id=None):
                         'last_name': request.user.last_name,
                         'job': job.title
                     }
-                    send_html_mail(
+                    send_html_mail_message(
                         "New Message",
                         DEFAULT_FROM_EMAIL,
                         [receiver_email],
@@ -157,7 +157,7 @@ def reply_message(request, id=None):
                         'last_name': request.user.last_name,
                         'job': Job.objects.get(title=title)
                     }
-                    send_html_mail(
+                    send_html_mail_message(
                         "New Message",
                         DEFAULT_FROM_EMAIL,
                         [receiver_email],

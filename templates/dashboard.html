@@ -42,7 +42,7 @@
                                             <span class="badge badge-secondary">Not Filled</span>
                                         {% endif %}
                                     </td>
-                                    <td>{{ job.end_date }}</td>
+                                    <td>{{ job.end_date|date:"F d, Y, H:i" }}</td>
                                     <td>
                                         <a href="{% url 'employer-dashboard-screen' job.id %}" style="border-radius: 24px;" class="btn btn-warning">
                                             <i class="fa fa-users"></i>{{ job.applicants.count }}

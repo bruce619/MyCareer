@@ -1,14 +1,10 @@
 from django.urls import path
-from rest_framework.routers import DefaultRouter
-
+from rest_framework.routers import format_suffix_patterns
 from .views import *
 
-router = DefaultRouter()
-router.register('jobs/job-listing/', JobViewSet, basename='job-listing')
-
 urlpatterns = [
-    path('search/', SearchApiView.as_view()),
-    path('apply-job/<int:job_id>', ApplyJobApiView.as_view())
+    path('jobs/', get_create_job_api_view, name="job-listing"),
+    path('job-apply/', get_apply_job_api_view, name='job-apply')
 ]
 
-urlpatterns += router.urls
+urlpatterns = format_suffix_patterns(urlpatterns)

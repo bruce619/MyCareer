@@ -65,9 +65,9 @@ class Job(models.Model):
     requirement = RichTextUploadingField()
     years_of_experience = models.IntegerField(blank=True, null=True)
     type = models.CharField(choices=JOB_TYPE, max_length=10)
-    end_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField()
     created_at = models.DateTimeField(default=timezone.now)
-    date = models.DateTimeField(default=timezone.now)
+    date = models.DateTimeField(null=True, blank=True)
     filled = models.BooleanField(default=False)
 
     def __str__(self):

@@ -14,7 +14,7 @@
               <div>
                 <h2>{{ object.title }}</h2>
                 <div>
-                  <span class="m-2"><i class="fa fa-clock"></i>{{ object.date|date:"F d, Y" }}</span>
+                  <span class="m-2"><i class="fa fa-clock"></i>{{ object.end_date|date:"F d, Y" }}</span>
                   <span class="m-2"><span class="fa fa-map-marker-alt"></span>{{ object.location }}</span>
                     {% if object.type == 'Full time' %}
                   <span class="badge featured-badge badge-success">Full time</span>
@@ -49,7 +49,7 @@
                 <li class="mb-2"><strong class="text-black">Employment Status:</strong> {{object.type}}</li>
                 <li class="mb-2"><strong class="text-black">Job Location:</strong> {{object.location}}</li>
                 <li class="mb-2"><strong class="text-black">Experience:</strong> Minimum of {{object.years_of_experience}} years</li>
-                <li class="mb-2"><strong class="text-black">Application Deadline:</strong> {{ object.end_date }}</li>
+                <li class="mb-2"><strong class="text-black">Application Deadline:</strong> {{ object.end_date|date:"F d, Y, H:i" }}</li>
               </ul>
             </div>
           </div>
