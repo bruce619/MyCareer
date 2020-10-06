@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'bootstrap_datepicker_plus',
     'bootstrap4',
     'storages',
-    'background_task',
     'sweetify',
     'django_filters',
     'bootstrapform',
@@ -291,29 +290,6 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str)
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = "CAREERS AT NUE OFFSHORE <{}>".format(EMAIL_HOST_USER)
 
-BACKGROUND_TASK_RUN_ASYNC = True
-
-
-# AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-# AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-# AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-# AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME')
-# S3_USE_SIGV4 = config('S3_USE_SIGV4')
-#
-# AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-# AWS_LOCATION = 'static'
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-#
-# DEFAULT_FILE_STORAGE = 'mycareer.storage_backends.MediaStorage'
-#
-# AWS_S3_FILE_OVERWRITE = False
-# AWS_DEFAULT_ACL = None
-
-
-# db_from_env = dj_database_url.config(conn_max_age=500)
-# DATABASES['default'].update(db_from_env)
-#
-# django_heroku.settings(locals())
 
 ################################################################################################
 # DEVELOPMENT SETTINGS
