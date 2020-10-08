@@ -13,6 +13,7 @@ from rest_framework.authtoken import views as auth_views
 from rest_framework.compat import coreapi, coreschema
 from rest_framework.schemas import ManualSchema
 from .serializers import AuthCustomTokenSerializer
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class UserCreateAPIView(generics.CreateAPIView):
@@ -78,7 +79,7 @@ def get_all_user_api_view(request):
     try:
         users = User.objects.all()
         profile = Profile.objects.all()
-    except User.DoesNotExist:
+    except ObjectDoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     staff_user = request.user.is_staff
@@ -104,7 +105,7 @@ def get_update_profile_api_view(request):
 
     try:
         my_profile = Profile.objects.filter(user=user)
-    except Profile.DoesNotExist:
+    except ObjectDoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
@@ -113,7 +114,7 @@ def get_update_profile_api_view(request):
 
     try:
         profile = Profile.objects.get(user=user)
-    except Profile.DoesNotExist:
+    except ObjectDoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if not profile:

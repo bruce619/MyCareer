@@ -16,6 +16,7 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
+# creates a user token on registration
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
