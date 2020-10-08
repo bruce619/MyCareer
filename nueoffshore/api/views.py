@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from .serializers import *
 from ..models import Job, Applicants, Certification, Notification
+from django.core.exceptions import ObjectDoesNotExist
 
 
 @api_view(['GET', 'POST'])
@@ -16,7 +17,7 @@ def get_create_job_api_view(request):
 
     try:
         jobs = Job.objects.all().order_by("-created_at")
-    except Job.DoesNotExist:
+    except ObjectDoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
@@ -43,7 +44,7 @@ def get_apply_job_api_view(request, job_id=None):
 
     try:
         my_jobs = Job.objects.filter(applicants__user=user).distinct().order_by("-created_at")
-    except Job.DoesNotExist:
+    except ObjectDoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
@@ -52,7 +53,7 @@ def get_apply_job_api_view(request, job_id=None):
 
     try:
         job = Job.objects.get(id=job_id)
-    except Job.DoesNotExist:
+    except ObjectDoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if not an_applicant:
