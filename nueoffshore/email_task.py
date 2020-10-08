@@ -1,14 +1,15 @@
 import threading
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
-from background_task import background
 from .models import Job
+from django.utils import timezone
 
 
-class EmailThreadOne(threading.Thread):
+class EmailThread(threading.Thread):
     def __init__(self, subject, sender, recipient_list, context, html_content):
         self.subject = subject
         self.context = context
+        self.sender = sender
         self.html_content = str(html_content)
         self.recipient_list = recipient_list
         threading.Thread.__init__(self)
@@ -22,7 +23,7 @@ class EmailThreadOne(threading.Thread):
 
 # @background(schedule=60)
 def send_html_mail(subject, sender, recipient_list, context, html_content):
-    EmailThreadOne(subject, sender, recipient_list, context, html_content).start()
+    EmailThread(subject, sender, recipient_list, context, html_content).start()
 
 
 class EmailThreadTwo(threading.Thread):
@@ -45,11 +46,15 @@ def send_html_mail_message(subject, sender, recipient_list, context, html_conten
     EmailThreadTwo(subject, sender, recipient_list, context, html_content).start()
 
 
-@background(schedule=60)
-def auto_mark_as_filled(job_id):
-    job = Job.objects.get(pk=job_id, filled=False)
-    job.filled = True
-    job.save()
-
-
+# def auto_mark_as_filled(current_date):
+#     jobs = Job.objects.all()
+#     for job in jobs:
+#         if current_date >= job.end_date:
+#             job.filled = True
+#             job.save()
+#
+#
+# current_date = timezone.now()
+#
+# auto_mark_as_filled(current_date)
 

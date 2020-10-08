@@ -3,7 +3,6 @@ from django.urls import reverse_lazy
 from ..forms import ApplyJobForm, ApplyFormset
 from ..models import Applicants, Job, Certification
 from django.contrib.auth.mixins import LoginRequiredMixin
-import sweetify
 from django.views.generic import ListView
 from django.core.mail import BadHeaderError
 from accounts.models import User
