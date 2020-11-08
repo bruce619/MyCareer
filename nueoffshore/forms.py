@@ -2,7 +2,6 @@ from django import forms
 from .models import Job, Applicants, Certification, Notification
 from bootstrap_datepicker_plus import DateTimePickerInput
 from django.forms import modelformset_factory
-from .email_task import auto_mark_as_filled
 
 
 DEGREE_TYPE = (
@@ -48,7 +47,6 @@ class CreateJobForm(forms.ModelForm):
     def save(self, commit=True):
         job = super(CreateJobForm, self).save(commit=False)
         job.save()
-        auto_mark_as_filled(job.id, schedule=job.end_date)
         return job
 
 
